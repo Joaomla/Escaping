@@ -10,12 +10,15 @@ public class PlayerMovement : MonoBehaviour
     // jump height
     [SerializeField] float jumpHeight = 4f;
 
-    // movement the player is doing in the x and y axis
+    // movement of the player
     private float xMovement;
-    private float yMovement;
+    [SerializeField] float dist2side = 0.5f;
 
-    // checks if player can jump
-    private bool isFalling = false;
+
+    // Jumping variables
+    private bool isFloored = true; // is the player on the ground
+    private bool doJump = false; // is the action to jump
+    [SerializeField] float dist2ground = 0.5f; // distance to the ground
 
     private Rigidbody2D rb;
 
@@ -27,24 +30,74 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        xMovement = Input.GetAxisRaw("Horizontal");
+        // Checks if the player is in the ground
+        IsGrounded();
 
-        float playerXMove = xMovement * xSpeed * Time.deltaTime;
-
-        transform.position = new Vector3(transform.position.x + playerXMove, transform.position.y, transform.position.z);
-
-
-        // Jumping
-        if ( Input.GetKey(KeyCode.W) && isFalling == false )
+        // checks if the player can jump
+        if ( Input.GetKey(KeyCode.W) && isFloored)
         {
-            rb.velocity = new Vector2( 0, jumpHeight );
+            doJump = true;
         }
 
-        isFalling = true;
+        // gets input of the x movement
+        xMovement = Input.GetAxisRaw("Horizontal");
     }
 
-    private void OnCollisionStay2D( Collision2D collision )
+    private void FixedUpdate()
     {
-        isFalling = false;
+
+        if (doJump)
+        {
+            // Player can jump
+            rb.velocity = new Vector2(0, jumpHeight);
+            isFloored = false;
+            doJump = false;
+        }
+        else if (xMovement != 0)
+        {
+            // player is moving horizontally
+            if (isFloored)
+            {
+                // player is on the floor
+                rb.MovePosition(new Vector2(transform.position.x + xMovement * xSpeed * Time.fixedDeltaTime, transform.position.y));
+            }
+            else
+            {
+                // player is mid-air
+                rb.velocity = new Vector2(xMovement * xSpeed, rb.velocity.y);
+            }
+        }
+        else
+        {
+            // if player is in mid-air and there's no horizontal input, the player won't move in the x axis
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
     }
+
+    private void IsGrounded()
+    {
+        // debuging
+        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.down * dist2ground), Color.white);
+
+
+        // list with all the hit objects
+        RaycastHit2D[] allhit;
+
+        // Shoot a ray out of the player's ass
+        allhit = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector2.down), dist2ground);
+        
+        // check if the ray hits solid ground that the player can jump from
+        foreach (var hit in allhit)
+        {
+            // now filter by tag or name
+            if (hit.transform.CompareTag("SolidGround"))
+            {
+                isFloored = true;
+                return;
+            }
+        }
+
+        isFloored = false;
+    }
+
 }

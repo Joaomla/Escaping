@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 214701397}
   - component: {fileID: 214701398}
   - component: {fileID: 214701399}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PlayerSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 389046171}
   m_Layer: 0
   m_Name: TestTileMap
-  m_TagString: Untagged
+  m_TagString: SolidGround
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1882,7 +1882,7 @@ CompositeCollider2D:
   m_GameObject: {fileID: 389046166}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2fb5d25587d78ce4dbb1c15dd3f9f322, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2030,7 +2030,7 @@ GameObject:
   - component: {fileID: 774617771}
   - component: {fileID: 774617772}
   - component: {fileID: 774617773}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point Checker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2096,7 +2096,7 @@ GameObject:
   - component: {fileID: 1109151174}
   - component: {fileID: 1109151171}
   - component: {fileID: 1109151173}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Test Monster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2355,7 +2355,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 1286218115}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 2fb5d25587d78ce4dbb1c15dd3f9f322, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2439,9 +2439,9 @@ GameObject:
   - component: {fileID: 1512379062}
   - component: {fileID: 1512379063}
   - component: {fileID: 1512379064}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TestPlayer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2460,6 +2460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSpeed: 2
   jumpHeight: 4
+  dist2side: 0.5
+  dist2ground: 0.5
 --- !u!4 &1512379061
 Transform:
   m_ObjectHideFlags: 0
@@ -2561,7 +2563,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.007107079, y: -0.036356866}
+  m_Offset: {x: -0.007107079, y: -0.03302495}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2572,5 +2574,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.30350888, y: 0.7257167}
+  m_Size: {x: 0.3, y: 0.7190529}
   m_EdgeRadius: 0
