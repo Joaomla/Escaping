@@ -12,10 +12,10 @@ public class LockingOn : IState
 
     public LockingOn(Companion companion)
     {
-        Debug.Log("entrei aqui agora");
+        //Debug.Log("entrei aqui agora");
         this.companion = companion;
         targetPos = companion.CheckTargetPos();
-        companionOriginalPos = companion.transform.localPosition;
+        companionOriginalPos = companion.myOriginalPosition;
         Debug.Log(companionOriginalPos);
         companionParent = companion.transform.parent;
     }
@@ -35,7 +35,7 @@ public class LockingOn : IState
         Debug.Log(companion.CheckTrig());
         if(!companion.CheckTrig())
         {
-            companion.stateMachine.ChangeState(new Searching(companion));
+            companion.stateMachine.ChangeState(new GoingToPlayer(companion));
         }
         //have to check trig cuz it might change
     }
@@ -43,8 +43,9 @@ public class LockingOn : IState
     public void Exit() 
     {
         //Get monster back to it's original pos
+        Debug.Log("executei a saída");
         companion.transform.parent = companionParent;
-        companion.transform.localPosition = companionOriginalPos;
+        //companion.transform.localPosition = companionOriginalPos;
     }
     
 }

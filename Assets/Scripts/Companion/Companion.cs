@@ -5,6 +5,8 @@ using UnityEngine;
 public class Companion : MonoBehaviour
 {
     // comportamento do monstro será programado através de state machine (try)
+
+    public Vector3 myOriginalPosition;
     
     public StateMachine stateMachine = new StateMachine();
 
@@ -13,6 +15,7 @@ public class Companion : MonoBehaviour
     void Start()
     {
         stateMachine.ChangeState(new Searching(this));
+        myOriginalPosition = this.transform.localPosition;
         //pointChecker = FindObjectOfType<PointChecker>();
     }
 
