@@ -8,6 +8,7 @@ public class Companion : MonoBehaviour
 
     public Vector3 myOriginalPosition;
     
+    
     public StateMachine stateMachine = new StateMachine();
 
     [SerializeField] PointChecker pointChecker;

@@ -13,7 +13,7 @@ public class Searching : IState
     }
     public void Enter()
     {
-        Debug.Log("Im entering");
+        //Debug.Log("Im entering");
         if (companion.CheckTrig()) 
         {
             Debug.Log("I found a point of interest");
@@ -23,7 +23,7 @@ public class Searching : IState
 
     public void Execute()
     {
-        Debug.Log("Executing");
+        //Debug.Log("Executing");
         if (companion.CheckTrig()) 
         {
             Debug.Log("I found a point of interest");
@@ -33,7 +33,7 @@ public class Searching : IState
     public void Exit() 
     {
         //not sure of what to do here
-        Debug.Log("Exiting State");
+        //Debug.Log("Exiting State");
     }
 
 }

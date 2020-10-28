@@ -16,13 +16,13 @@ public class LockingOn : IState
         this.companion = companion;
         targetPos = companion.CheckTargetPos();
         companionOriginalPos = companion.myOriginalPosition;
-        Debug.Log(companionOriginalPos);
+        //Debug.Log(companionOriginalPos);
         companionParent = companion.transform.parent;
     }
 
     public void Enter()
     {
-        Debug.Log("Entering LockOn State");
+        //Debug.Log("Entering LockOn State");
         //Debug.Log (companionOriginalPos);
         companion.transform.parent = null;
         //have to check trig cuz it might change
@@ -30,9 +30,9 @@ public class LockingOn : IState
 
     public void Execute()
     {
-        Debug.Log("Executing LockOn State");
+        //Debug.Log("Executing LockOn State");
         companion.transform.position = Vector3.MoveTowards(companion.transform.position,targetPos,2.5f * Time.deltaTime);
-        Debug.Log(companion.CheckTrig());
+        //Debug.Log(companion.CheckTrig());
         if(!companion.CheckTrig())
         {
             companion.stateMachine.ChangeState(new GoingToPlayer(companion));
