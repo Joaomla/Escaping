@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     // movement of the player
     private float xMovement;
-    [SerializeField] float dist2side = 0.5f;
+    // side the player is facing
+    private int playerFacing = 1;
 
 
     // Jumping variables
@@ -21,11 +22,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dist2ground = 0.5f; // distance to the ground
 
     private Rigidbody2D rb;
+    private Animator an;
+    private SpriteRenderer spriteRenderer;
 
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        an = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -41,6 +46,16 @@ public class PlayerMovement : MonoBehaviour
 
         // gets input of the x movement
         xMovement = Input.GetAxisRaw("Horizontal");
+
+        an.SetFloat("xMovement", Mathf.Abs(xMovement));
+
+        if (xMovement != 0)
+        {
+            playerFacing = (int)xMovement;
+            Debug.Log(playerFacing);
+        }
+        spriteRenderer.flipX = (playerFacing != 1);
+        
     }
 
     private void FixedUpdate()
@@ -63,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else
             {
-                // player is mid-air
+                // player is in mid-air
                 rb.velocity = new Vector2(xMovement * xSpeed, rb.velocity.y);
             }
         }
@@ -73,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
         }
     }
+
 
     private void IsGrounded()
     {
