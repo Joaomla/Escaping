@@ -28,6 +28,13 @@ public class PointChecker : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other) 
     {
+        if(POIs.Count > 1)
+        {
+            for(int i = 0; i < POIs.Count; i++)
+            {
+                POIs[i].myDistance = CalculateDistance(other.gameObject);
+            }
+        }
         if(other.gameObject.tag == "PointOfInterest")
         {
             //Use this to update the distances
@@ -45,7 +52,7 @@ public class PointChecker : MonoBehaviour
             POIToAdd = new POI(other.gameObject, CalculateDistance(other.gameObject));
             Debug.Log(POIs);
             POIs.Add(POIToAdd);
-            Debug.Log(POIs);
+            Debug.Log(POIs.Count);
             trig = true;
             targetPos = other.transform.position;
         }
@@ -56,6 +63,17 @@ public class PointChecker : MonoBehaviour
         //Check if list is bigger than 1
         //If it is check if other.gameObject == POI.gameObject
         //If it is take THAT POI out of the list
+        if(POIs.Count > 1)
+        {
+            for(int i = 0; i < POIs.Count; i++)
+            {
+                if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
+                {
+                    POIs.Remove(POIs[i]);
+                    Debug.Log(POIs.Count);
+                }
+            }
+        }
         if(other.gameObject.tag == "PointOfInterest")
         {
             trig = false;
