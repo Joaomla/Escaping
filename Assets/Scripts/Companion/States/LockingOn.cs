@@ -30,6 +30,7 @@ public class LockingOn : IState
 
     public void Execute()
     {
+        targetPos = companion.CheckTargetPos();
         //Debug.Log("Executing LockOn State");
         companion.transform.position = Vector3.MoveTowards(companion.transform.position,targetPos,2.5f * Time.deltaTime);
         //Debug.Log(companion.CheckTrig());

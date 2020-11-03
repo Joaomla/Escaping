@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
         if (xMovement != 0)
         {
             playerFacing = (int)xMovement;
-            Debug.Log(playerFacing);
+            //Debug.Log(playerFacing);
         }
         spriteRenderer.flipX = (playerFacing != 1);
         

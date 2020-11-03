@@ -12,8 +12,7 @@ public class PointChecker : MonoBehaviour
 
     [SerializeField] GameObject player;
 
-    
-    //criar dicionario targets - positions. Calcular o mais perto (maybe another script). Return o mais perto. 
+     
     private void Start() 
     {
         List<POI> POIs = new List<POI>();    
@@ -37,9 +36,17 @@ public class PointChecker : MonoBehaviour
         }
         if(other.gameObject.tag == "PointOfInterest")
         {
-            //Use this to update the distances
-            trig = true;
-            targetPos = other.transform.position;
+            if(POIs.Count > 1)
+            {
+                Debug.Log("meu target é: " + TargetGiver(POIs).myObject.name);
+                trig = true;
+                targetPos = TargetGiver(POIs).myObject.transform.position;
+            }
+            else
+            {
+                trig = true;
+                targetPos = other.transform.position;
+            }
         }
         
     }
@@ -50,11 +57,17 @@ public class PointChecker : MonoBehaviour
         if(other.gameObject.tag == "PointOfInterest")
         {
             POIToAdd = new POI(other.gameObject, CalculateDistance(other.gameObject));
-            Debug.Log(POIs);
             POIs.Add(POIToAdd);
-            Debug.Log(POIs.Count);
-            trig = true;
-            targetPos = other.transform.position;
+            if(POIs.Count > 1)
+            {
+                targetPos = TargetGiver(POIs).myObject.transform.position;
+            }
+            else
+            {
+                trig = true;
+                targetPos = other.transform.position;
+            }
+            
         }
     }
 
@@ -63,17 +76,15 @@ public class PointChecker : MonoBehaviour
         //Check if list is bigger than 1
         //If it is check if other.gameObject == POI.gameObject
         //If it is take THAT POI out of the list
-        if(POIs.Count > 1)
+        for(int i = 0; i < POIs.Count; i++)
         {
-            for(int i = 0; i < POIs.Count; i++)
+            if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
             {
-                if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
-                {
-                    POIs.Remove(POIs[i]);
-                    Debug.Log(POIs.Count);
-                }
+                POIs.Remove(POIs[i]);
+                Debug.Log(POIs.Count);
             }
         }
+        
         if(other.gameObject.tag == "PointOfInterest")
         {
             trig = false;
@@ -84,5 +95,22 @@ public class PointChecker : MonoBehaviour
     {
         float distance = Vector3.Distance(player.transform.position, POI.transform.position);
         return distance;
+    }
+
+    POI TargetGiver(List<POI> POIs)
+    {
+        POI POIToReturn = POIs[0];
+        for(int i = 0; i<POIs.Count - 1; i++)
+        {
+            if(POIs[i].myDistance < POIs[i+1].myDistance)
+            {
+                POIToReturn = POIs[i];
+            }
+            else
+            {
+                POIToReturn = POIs[i+1];
+            }
+        }
+        return POIToReturn;
     }
 }
