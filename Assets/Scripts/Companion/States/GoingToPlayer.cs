@@ -12,7 +12,7 @@ public class GoingToPlayer : IState
     }
     public void Enter()
     {
-        Debug.Log("Entering GoingToPlayer State");
+        //Debug.Log("Entering GoingToPlayer State");
     }   
 
     public void Execute()
@@ -26,6 +26,6 @@ public class GoingToPlayer : IState
 
     public void Exit()
     {
-        Debug.Log("Exiting GoingToPlayer state");
+        //Debug.Log("Exiting GoingToPlayer state");
     }
 }

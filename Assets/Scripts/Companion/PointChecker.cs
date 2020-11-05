@@ -38,7 +38,7 @@ public class PointChecker : MonoBehaviour
         {
             if(POIs.Count > 1)
             {
-                Debug.Log("meu target é: " + TargetGiver(POIs).myObject.name);
+                //Debug.Log("meu target é: " + TargetGiver(POIs).myObject.name);
                 trig = true;
                 targetPos = TargetGiver(POIs).myObject.transform.position;
             }
@@ -81,7 +81,7 @@ public class PointChecker : MonoBehaviour
             if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
             {
                 POIs.Remove(POIs[i]);
-                Debug.Log(POIs.Count);
+                //Debug.Log(POIs.Count);
             }
         }
         

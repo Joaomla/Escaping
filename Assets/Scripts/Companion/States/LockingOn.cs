@@ -44,7 +44,7 @@ public class LockingOn : IState
     public void Exit() 
     {
         //Get monster back to it's original pos
-        Debug.Log("executei a saída");
+        //Debug.Log("executei a saída");
         companion.transform.parent = companionParent;
         //companion.transform.localPosition = companionOriginalPos;
     }
