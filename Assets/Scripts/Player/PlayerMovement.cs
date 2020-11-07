@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isFloored = true; // is the player on the ground
     private bool doJump = false; // is the action to jump
     [SerializeField] float dist2ground = 0.5f; // distance to the ground
+    private Collider2D feet;
 
     private Rigidbody2D rb;
     private Animator an;
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         an = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        feet = GetComponent<EdgeCollider2D>();
     }
 
     void Update()
@@ -39,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
         IsGrounded();
 
         // checks if the player can jump
-        if ( Input.GetKey(KeyCode.W) && isFloored)
+        if ( Input.GetKeyDown(KeyCode.W) && isFloored)
         {
             doJump = true;
         }
@@ -48,6 +50,12 @@ public class PlayerMovement : MonoBehaviour
         xMovement = Input.GetAxisRaw("Horizontal");
 
         an.SetFloat("xMovement", Mathf.Abs(xMovement));
+        an.SetBool("isJumping", false);
+
+        if (!isFloored)
+        {
+            an.SetBool("isJumping", true);
+        }
 
         if (xMovement != 0)
         {
@@ -92,6 +100,17 @@ public class PlayerMovement : MonoBehaviour
 
     private void IsGrounded()
     {
+        if (feet.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
+        {
+            isFloored = true;
+            return;
+        }
+        isFloored = false;
+        Debug.Log("isFloored: " + isFloored);
+    }
+
+    /*private void IsGrounded()
+    {
         // debuging
         Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.down * dist2ground), Color.white);
 
@@ -114,6 +133,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isFloored = false;
-    }
+    }*/
 
 }
