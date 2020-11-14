@@ -15,11 +15,15 @@ public class Player : MonoBehaviour
     // side the player is facing
     private int playerFacing = 1;
 
-
     // Jumping variables
     private bool isFloored = true; // is the player on the ground
     private bool doJump = false; // is the action to jump
     private Collider2D feet;
+
+    // Powerbar
+    private int maxPower = 100;
+    private int currentPower;
+    [SerializeField] PowerBar powerBar;
 
     private Rigidbody2D rb;
     private Animator an;
@@ -32,6 +36,8 @@ public class Player : MonoBehaviour
         an = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = GetComponent<EdgeCollider2D>();
+        powerBar.setMaxPower(maxPower);
+        currentPower = maxPower;
     }
 
     void Update()
@@ -44,6 +50,11 @@ public class Player : MonoBehaviour
         Move();
         // Animation Update
         Animate();
+
+        // test
+        if (Input.GetKey(KeyCode.C)) currentPower--;
+        if (Input.GetKey(KeyCode.V)) currentPower++;
+        powerBar.SetPower(currentPower);
     }
 
     private void FixedUpdate()
