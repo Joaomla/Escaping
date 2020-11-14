@@ -5,37 +5,36 @@ using UnityEngine;
 public class Wander : IState
 {
     Enemy enemy;
-    GameObject myEnemy;
-    SpawnPointConfig spawnPointConfig;
-    List<Transform> trajectorie = new List<Transform>();
-    int pointIndex = 0;
+    
+    public List<Transform> path = new List<Transform>();
+
+    int pathIndex = 0;
 
 
-    public Wander(GameObject myEnemy)
+    public Wander(Enemy enemy,List<Transform> path)
     {
-        Debug.Log(spawnPointConfig.GetMyEnemy());
-        trajectorie = spawnPointConfig.GetWaypoints();
-        this.myEnemy = myEnemy;
+        this.enemy = enemy;
+        this.path = path;
     }
 
-    //movetowards points A and B Back a Forth
+    //move through the path
     public void Enter()
     {
-        //trajectorie = new List<Transform>();
-        //trajectorie = spawnPointConfig.GetWaypoints();
+        //enemy.transform.position = path[0].position;
     }
 
     public void Execute()
     {
-        //Debug.Log(trajectorie.Count);
-        if(pointIndex < trajectorie.Count - 1)
+        if (pathIndex < path.Count - 1)
         {
-            var targetPosition = trajectorie[pointIndex].transform.position;
-            var movementThisFrame = enemy.GetWanderSpeed();
-            myEnemy.transform.position = Vector3.MoveTowards(myEnemy.transform.position, targetPosition, movementThisFrame * Time.deltaTime);
-            if(myEnemy.transform.position == targetPosition)
+            var targetPos = path[pathIndex + 1].position;
+            float speed = 0.4f * Time.deltaTime;
+            enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, targetPos, speed);
+
+            if (Vector3.Distance(enemy.transform.position, targetPos) < Mathf.Epsilon)
             {
-                pointIndex++;
+                pathIndex++;
+                if (pathIndex >= path.Count - 1) {pathIndex = -1;}
             }
         }
         

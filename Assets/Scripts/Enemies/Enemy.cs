@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [Header("Enemy stats")]
+    public StateMachine stateMachine = new StateMachine();
 
-    [SerializeField] float healthPoints;
-    [SerializeField] float wanderSpeed = 1.5f;
+    [SerializeField] public List<Transform> path = new List<Transform>();
+
     void Start()
     {
-        
+        stateMachine.ChangeState(new Wander( this ,path));
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    public float GetWanderSpeed()
-    {
-        return wanderSpeed;
+        stateMachine.Update();
     }
 }
