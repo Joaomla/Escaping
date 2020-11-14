@@ -6,18 +6,18 @@ public class Player : MonoBehaviour
 {
     // speed of the player in the x axis
     [SerializeField] float xSpeed = 1.5f;
-
-    // jump height
-    [SerializeField] float jumpHeight = 4f;
-
     // movement of the player
     private float xMovement;
     // side the player is facing
     private int playerFacing = 1;
 
     // Jumping variables
+    [SerializeField] float jumpHeight = 4f; // jump height
+    [SerializeField] float jumpingTime = 0.5f;  // time the player can jump
+    private float currentJumpingTime;
     private bool isFloored = true; // is the player on the ground
     private bool doJump = false; // is the action to jump
+    private bool jumpKey = false;   // is the jump key pressed
     private Collider2D feet;
 
     // Powerbar
@@ -38,6 +38,7 @@ public class Player : MonoBehaviour
         feet = GetComponent<EdgeCollider2D>();
         powerBar.setMaxPower(maxPower);
         currentPower = maxPower;
+        currentJumpingTime = jumpingTime;
     }
 
     void Update()
@@ -55,6 +56,8 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.C)) currentPower--;
         if (Input.GetKey(KeyCode.V)) currentPower++;
         powerBar.SetPower(currentPower);
+
+        Debug.Log(rb.velocity.x);
     }
 
     private void FixedUpdate()
@@ -63,9 +66,15 @@ public class Player : MonoBehaviour
         if (doJump)
         {
             // Player can jump
-            rb.velocity = new Vector2(0, jumpHeight);
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
             isFloored = false;
             doJump = false;
+            currentJumpingTime = jumpingTime;
+        }
+        else if ( jumpKey && rb.velocity.y > 0f && currentJumpingTime > 0)  // long jump
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+            currentJumpingTime -= Time.fixedDeltaTime;
         }
         else if (xMovement != 0)
         {
@@ -73,7 +82,7 @@ public class Player : MonoBehaviour
             if (isFloored)
             {
                 // player is on the floor
-                rb.MovePosition(new Vector2(transform.position.x + xMovement * xSpeed * Time.fixedDeltaTime, transform.position.y));
+                rb.velocity = new Vector2(xMovement*xSpeed, 0);
             }
             else
             {
@@ -103,7 +112,10 @@ public class Player : MonoBehaviour
     // Checks if player can jump
     private void Jump()
     {
-        if ( ( Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ) && isFloored)
+        jumpKey = false;
+        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) jumpKey = true;
+
+        if ( jumpKey && isFloored)
         {
             doJump = true;
         }
