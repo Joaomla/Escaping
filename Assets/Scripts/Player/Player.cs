@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class Player : MonoBehaviour
 {
     // speed of the player in the x axis
-    [SerializeField] float xSpeed = 4f;
+    [SerializeField] float xSpeed = 1.5f;
 
     // jump height
     [SerializeField] float jumpHeight = 4f;
@@ -19,7 +19,6 @@ public class PlayerMovement : MonoBehaviour
     // Jumping variables
     private bool isFloored = true; // is the player on the ground
     private bool doJump = false; // is the action to jump
-    [SerializeField] float dist2ground = 0.5f; // distance to the ground
     private Collider2D feet;
 
     private Rigidbody2D rb;
@@ -39,31 +38,12 @@ public class PlayerMovement : MonoBehaviour
     {
         // Checks if the player is in the ground
         IsGrounded();
-
-        // checks if the player can jump
-        if ( Input.GetKeyDown(KeyCode.W) && isFloored)
-        {
-            doJump = true;
-        }
-
-        // gets input of the x movement
-        xMovement = Input.GetAxisRaw("Horizontal");
-
-        an.SetFloat("xMovement", Mathf.Abs(xMovement));
-        an.SetBool("isJumping", false);
-
-        if (!isFloored)
-        {
-            an.SetBool("isJumping", true);
-        }
-
-        if (xMovement != 0)
-        {
-            playerFacing = (int)xMovement;
-            //Debug.Log(playerFacing);
-        }
-        spriteRenderer.flipX = (playerFacing != 1);
-        
+        // checks if player can jump
+        Jump();
+        // checks if can move
+        Move();
+        // Animation Update
+        Animate();
     }
 
     private void FixedUpdate()
@@ -97,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
+    // Checks if player is on the ground
     private void IsGrounded()
     {
         if (feet.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
@@ -109,30 +89,32 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("isFloored: " + isFloored);
     }
 
-    /*private void IsGrounded()
+    // Checks if player can jump
+    private void Jump()
     {
-        // debuging
-        Debug.DrawRay(transform.position, transform.TransformDirection(Vector2.down * dist2ground), Color.white);
-
-
-        // list with all the hit objects
-        RaycastHit2D[] allhit;
-
-        // Shoot a ray out of the player's ass
-        allhit = Physics2D.RaycastAll(transform.position, transform.TransformDirection(Vector2.down), dist2ground);
-        
-        // check if the ray hits solid ground that the player can jump from
-        foreach (var hit in allhit)
+        if ( ( Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) ) && isFloored)
         {
-            // now filter by tag or name
-            if (hit.transform.CompareTag("SolidGround"))
-            {
-                isFloored = true;
-                return;
-            }
+            doJump = true;
         }
+    }
 
-        isFloored = false;
-    }*/
+    // Checks if player can move
+    private void Move()
+    {
+        xMovement = Input.GetAxisRaw("Horizontal");
+
+        // update where the player is facing
+        if (xMovement != 0) playerFacing = (int)xMovement;
+    }
+
+    // Update animation
+    private void Animate()
+    {
+        an.SetFloat("xMovement", Mathf.Abs(xMovement));
+        an.SetBool("isJumping", false);
+        if (!isFloored) an.SetBool("isJumping", true);
+        spriteRenderer.flipX = (playerFacing != 1);
+    }
+
 
 }
