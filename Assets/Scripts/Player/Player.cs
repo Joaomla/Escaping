@@ -56,13 +56,11 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.C)) currentPower--;
         if (Input.GetKey(KeyCode.V)) currentPower++;
         powerBar.SetPower(currentPower);
-
-        Debug.Log(rb.velocity.x);
     }
 
     private void FixedUpdate()
     {
-
+        Debug.Log("DoJump = " + doJump);
         if (doJump)
         {
             // Player can jump
@@ -88,12 +86,14 @@ public class Player : MonoBehaviour
             {
                 // player is in mid-air
                 rb.velocity = new Vector2(xMovement * xSpeed, rb.velocity.y);
+                currentJumpingTime -= Time.fixedDeltaTime;
             }
         }
         else
         {
             // if player is in mid-air and there's no horizontal input, the player won't move in the x axis
             rb.velocity = new Vector2(0, rb.velocity.y);
+            currentJumpingTime -= Time.fixedDeltaTime;
         }
     }
 
@@ -106,16 +106,20 @@ public class Player : MonoBehaviour
             return;
         }
         isFloored = false;
-        Debug.Log("isFloored: " + isFloored);
     }
 
     // Checks if player can jump
     private void Jump()
     {
+        // Player can't just jump if they hold the jump key constantly. they have to release and press it again
+        bool canJump = false;
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) canJump = true;
+
+        // jumpkey is the variable for the long jump
         jumpKey = false;
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) jumpKey = true;
 
-        if ( jumpKey && isFloored)
+        if ( canJump && isFloored )
         {
             doJump = true;
         }
