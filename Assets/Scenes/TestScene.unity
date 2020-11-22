@@ -5070,7 +5070,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10301, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5090,10 +5090,10 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -4359067
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Positions:
-  - {x: -0.62, y: 0, z: 0}
-  - {x: -0.691, y: 0.345, z: 0}
+  - {x: -0.13881195, y: -1.1020831, z: 0}
+  - {x: -0.57614833, y: -0.8491218, z: 0}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -5102,13 +5102,22 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.08333397
+        value: 0.05555725
+        inSlope: -0.0000036492509
+        outSlope: -0.0000036492509
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.46448085
+      - serializedVersion: 3
+        time: 0.9791667
+        value: 0.15351301
         inSlope: 0
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
@@ -5142,7 +5151,7 @@ LineRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 0
+    numCapVertices: 10
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -5213,6 +5222,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   companion: {fileID: 1109151167}
   player: {fileID: 1512379059}
+  xOffset: 0
+  yOffset: 0.05
+  resolution: 100
+  waveScale: 25
+  waveAmplitude: 0.02
+  period: 10
+  startWidth: 0.01
+  endWidth: 0.1
 --- !u!58 &1109151172
 CircleCollider2D:
   m_ObjectHideFlags: 0
