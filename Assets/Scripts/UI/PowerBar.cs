@@ -7,6 +7,12 @@ public class PowerBar : MonoBehaviour
 {
     public Slider slider;
 
+
+    public int GetPower()
+    {
+        return (int)slider.value;
+    }
+
     public void SetPower(int power)
     {
         slider.value = power;

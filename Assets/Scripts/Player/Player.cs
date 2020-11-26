@@ -36,10 +36,10 @@ public class Player : MonoBehaviour
     private bool knockbacked = false;
     private Vector2 dangerOrigin;
     private float knockbackValue;
-    private float knockbackTime;
     private float currentKnockbackTime;
     private int damagedValue;
 
+    // Invincible variables
     private bool invincible = false;
     [SerializeField] float invincibilityTime = 2f;
     private float currentInvincibleTime;
@@ -85,6 +85,7 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.C)) currentPower--;
         if (Input.GetKey(KeyCode.V)) currentPower++;
         powerBar.SetPower(currentPower);
+        healthbar.SetPower(currentHealth);
     }
 
     private void FixedUpdate()
@@ -232,6 +233,8 @@ public class Player : MonoBehaviour
             knockbackValue = collision.GetComponent<ContactDamage>().GetKnockback();
             damagedValue = collision.GetComponent<ContactDamage>().GetDmage();
             currentKnockbackTime = collision.GetComponent<ContactDamage>().GetKnockbackTime();
+
+            currentHealth = healthbar.GetPower() - damagedValue;
         }
     }
 
