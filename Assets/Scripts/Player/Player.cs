@@ -25,6 +25,25 @@ public class Player : MonoBehaviour
     private int currentPower;
     [SerializeField] PowerBar powerBar;
 
+    // Health bar
+    [SerializeField] int maxHealth = 10;
+    private int currentHealth;
+    [SerializeField] PowerBar healthbar;
+
+    // Damage variables
+    private Collider2D body;
+    private bool isDamaged = false;
+    private bool knockbacked = false;
+    private Vector2 dangerOrigin;
+    private float knockbackValue;
+    private float knockbackTime;
+    private float currentKnockbackTime;
+    private int damagedValue;
+
+    private bool invincible = false;
+    [SerializeField] float invincibilityTime = 2f;
+    private float currentInvincibleTime;
+
     private Rigidbody2D rb;
     private Animator an;
     private SpriteRenderer spriteRenderer;
@@ -36,13 +55,23 @@ public class Player : MonoBehaviour
         an = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = GetComponent<EdgeCollider2D>();
+        body = GetComponent<BoxCollider2D>();
+
+        // power bar
         powerBar.setMaxPower(maxPower);
         currentPower = maxPower;
+
+        // health bar
+        currentHealth = maxHealth;
+
+        // jumping time
         currentJumpingTime = jumpingTime;
     }
 
     void Update()
     {
+        // Checks if player is invincible
+        Invincible();
         // Checks if the player is in the ground
         IsGrounded();
         // checks if player can jump
@@ -60,8 +89,31 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.Log("DoJump = " + doJump);
-        if (doJump)
+        // if player is being knockbacked, it can't move
+        if (knockbacked)
+        {
+            xMovement = 0;
+        }
+
+        if (isDamaged || currentKnockbackTime > 0 )
+        {
+            // player is damaged
+            isDamaged = false;
+
+            // player becomes invincible for a while
+            invincible = true;
+            currentInvincibleTime = invincibilityTime;
+            
+            // knockback based on the player position and the danger position
+            Vector2 playerPos = transform.position;
+            Vector2 knockbackDirection = playerPos - dangerOrigin;
+            
+            rb.velocity = new Vector2(knockbackValue * Mathf.Sign(knockbackDirection.x), knockbackValue * Mathf.Sign(knockbackDirection.y));
+            
+            // time in which the knockback force is applied to the player
+            currentKnockbackTime -= Time.fixedDeltaTime;
+        }
+        else if (doJump)
         {
             // Player can jump
             rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
@@ -86,11 +138,21 @@ public class Player : MonoBehaviour
             {
                 // player is in mid-air
                 rb.velocity = new Vector2(xMovement * xSpeed, rb.velocity.y);
-                currentJumpingTime -= Time.fixedDeltaTime;
+                if (currentJumpingTime > 0)
+                {
+                    currentJumpingTime -= Time.fixedDeltaTime;
+                }
             }
         }
         else
         {
+            if (knockbacked)
+            {
+                // if player is knockbacked, it will be thrown in the air, so the x velocity remains
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+                return;
+            }
+
             // if player is in mid-air and there's no horizontal input, the player won't move in the x axis
             rb.velocity = new Vector2(0, rb.velocity.y);
             currentJumpingTime -= Time.fixedDeltaTime;
@@ -100,12 +162,14 @@ public class Player : MonoBehaviour
     // Checks if player is on the ground
     private void IsGrounded()
     {
+        isFloored = false;
+
         if (feet.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
         {
+            knockbacked = false;
             isFloored = true;
             return;
         }
-        isFloored = false;
     }
 
     // Checks if player can jump
@@ -143,5 +207,43 @@ public class Player : MonoBehaviour
         spriteRenderer.flipX = (playerFacing != 1);
     }
 
+    private void OnTriggerEnter2D( Collider2D collision )
+    {
+        if (!body.IsTouchingLayers(LayerMask.GetMask("Danger")))
+        {
+            // player is not touching anything dangerous
+            return;
+        }
+
+        if (invincible)
+        {
+            // player is invincible, so no worries
+            return;
+        }
+
+        // other object damages the player
+        if (collision.GetComponent<ContactDamage>() != null)
+        {
+            knockbacked = true;
+            isDamaged = true;
+
+            // danger agent information
+            dangerOrigin = collision.gameObject.transform.position;
+            knockbackValue = collision.GetComponent<ContactDamage>().GetKnockback();
+            damagedValue = collision.GetComponent<ContactDamage>().GetDmage();
+            currentKnockbackTime = collision.GetComponent<ContactDamage>().GetKnockbackTime();
+        }
+    }
+
+    private void Invincible()
+    {
+        if (currentInvincibleTime > 0)
+        {
+            currentInvincibleTime -= Time.deltaTime;
+            return;
+        }
+
+        invincible = false;
+    }
 
 }
