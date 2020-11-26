@@ -210,6 +210,12 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D( Collider2D collision )
     {
+        CheckDanger(collision);
+        CheckCollectible(collision);
+    }
+
+    private void CheckDanger( Collider2D collision )
+    {
         if (!body.IsTouchingLayers(LayerMask.GetMask("Danger")))
         {
             // player is not touching anything dangerous
@@ -247,6 +253,22 @@ public class Player : MonoBehaviour
         }
 
         invincible = false;
+    }
+
+    private void CheckCollectible( Collider2D collision )
+    {
+        if (!body.IsTouchingLayers(LayerMask.GetMask("Collectible")))
+        {
+            // player is not touching any collectible
+            return;
+        }
+
+        // other object heals the player
+        if (collision.GetComponent<HealthRegen>() != null)
+        {
+            currentHealth = collision.GetComponent<HealthRegen>().HealthRegenValue();
+            return;
+        }
     }
 
 }
