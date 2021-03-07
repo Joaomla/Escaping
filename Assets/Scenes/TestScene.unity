@@ -11412,7 +11412,7 @@ MonoBehaviour:
   powerBar: {fileID: 1337403134}
   maxHealth: 10
   healthbar: {fileID: 1389256081}
-  invincibilityTime: 1
+  invincibilityTime: 0.8
 --- !u!1 &1662930016
 GameObject:
   m_ObjectHideFlags: 0
@@ -15394,7 +15394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  knockback: 3.5
+  knockback: 3
   knockbackTime: 0.1
 --- !u!212 &1765352024
 SpriteRenderer:

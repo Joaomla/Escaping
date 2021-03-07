@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb;
     private Animator an;
     private SpriteRenderer spriteRenderer;
+    private Color currentSpriteColor = Color.white;
 
 
     private void Start()
@@ -206,6 +207,7 @@ public class Player : MonoBehaviour
         an.SetBool("isJumping", false);
         if (!isFloored) an.SetBool("isJumping", true);
         spriteRenderer.flipX = (playerFacing != 1);
+        spriteRenderer.color = currentSpriteColor;
     }
 
     private void OnTriggerEnter2D( Collider2D collision )
@@ -246,12 +248,15 @@ public class Player : MonoBehaviour
 
     private void Invincible()
     {
+        // the player is invincible
         if (currentInvincibleTime > 0)
         {
+            currentSpriteColor = Color.red;
             currentInvincibleTime -= Time.deltaTime;
             return;
         }
 
+        currentSpriteColor = Color.white;
         invincible = false;
     }
 
