@@ -251,13 +251,30 @@ public class Player : MonoBehaviour
         // the player is invincible
         if (currentInvincibleTime > 0)
         {
-            currentSpriteColor = Color.red;
+            if (currentInvincibleTime == invincibilityTime) StartCoroutine(Blink());
             currentInvincibleTime -= Time.deltaTime;
             return;
         }
 
-        currentSpriteColor = Color.white;
         invincible = false;
+    }
+
+    // Blinks the player sprite with a red color
+    IEnumerator Blink()
+    {
+        // number of blinks within the invincibility time interval
+        float numberOfBlinks = 5;
+
+        // time per each blink (set of red - white colors)
+        float timePerBlink = invincibilityTime / (2 * numberOfBlinks - 1);
+
+        for (int n = 0; n < numberOfBlinks; n++)
+        {
+            currentSpriteColor = Color.red;
+            yield return new WaitForSeconds(timePerBlink); // wait a limited time
+            currentSpriteColor = Color.white;
+            yield return new WaitForSeconds(timePerBlink); // wait a limited time
+        }
     }
 
     private void CheckCollectible( Collider2D collision )
