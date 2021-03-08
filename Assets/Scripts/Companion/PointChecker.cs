@@ -10,7 +10,10 @@ public class PointChecker : MonoBehaviour
     POI POIToAdd;
     List<POI> POIs = new List<POI>();
 
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject player = null;
+
+    // active point of interest in which the companion is focused on
+    public POI activePOI;
 
      
     private void Start() 
@@ -40,12 +43,14 @@ public class PointChecker : MonoBehaviour
             {
                 //Debug.Log("meu target é: " + TargetGiver(POIs).myObject.name);
                 trig = true;
-                targetPos = TargetGiver(POIs).myObject.transform.position;
+                activePOI = TargetGiver(POIs);
+                targetPos = activePOI.myObject.transform.position;
             }
             else
             {
                 trig = true;
                 targetPos = other.transform.position;
+                activePOI = POIs[0];
             }
         }
         
@@ -60,12 +65,14 @@ public class PointChecker : MonoBehaviour
             POIs.Add(POIToAdd);
             if(POIs.Count > 1)
             {
-                targetPos = TargetGiver(POIs).myObject.transform.position;
+                activePOI = TargetGiver(POIs);
+                targetPos = activePOI.myObject.transform.position;
             }
             else
             {
                 trig = true;
                 targetPos = other.transform.position;
+                activePOI = POIs[0];
             }
             
         }
@@ -80,6 +87,9 @@ public class PointChecker : MonoBehaviour
         {
             if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
             {
+                // if this is the currently active POI remove it
+                if (POIs[i] == activePOI) activePOI = null;
+
                 POIs.Remove(POIs[i]);
                 //Debug.Log(POIs.Count);
             }

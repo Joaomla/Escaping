@@ -10641,7 +10641,7 @@ GameObject:
   - component: {fileID: 1109151173}
   - component: {fileID: 1109151175}
   m_Layer: 8
-  m_Name: Test Monster
+  m_Name: Companion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10920,6 +10920,7 @@ GameObject:
   - component: {fileID: 1286218118}
   - component: {fileID: 1286218117}
   - component: {fileID: 1286218116}
+  - component: {fileID: 1286218119}
   m_Layer: 0
   m_Name: Point of Interest Test
   m_TagString: PointOfInterest
@@ -11007,6 +11008,21 @@ Transform:
   m_Father: {fileID: 130319446}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1286218119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286218115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae34b2a42de45c74ba54cb47791a49d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teleportToPosition: {x: 5, y: 0}
+  grid: {fileID: 105207098}
+  destination: {x: 2.75, y: 0.25, z: 0}
 --- !u!1 &1337403131
 GameObject:
   m_ObjectHideFlags: 0
@@ -15721,7 +15737,6 @@ MonoBehaviour:
   - But who cares? I definitely don't.
   - So move your ass and do whatever you want.
   typingSpeed: 0.03
-  fadeSpeed: 0.01
   textBox: {fileID: 1980203029}
   imageAlpha: 45
 --- !u!4 &1927633926
