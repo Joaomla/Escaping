@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // Player Companion
+    private Companion companion;
     // speed of the player in the x axis
     [SerializeField] float xSpeed = 1.5f;
     // movement of the player
@@ -23,12 +25,12 @@ public class Player : MonoBehaviour
     // Powerbar
     private int maxPower = 100;
     private int currentPower;
-    [SerializeField] PowerBar powerBar;
+    [SerializeField] PowerBar powerBar = null;
 
     // Health bar
     [SerializeField] int maxHealth = 10;
     private int currentHealth;
-    [SerializeField] PowerBar healthbar;
+    [SerializeField] PowerBar healthbar = null;
 
     // Damage variables
     private Collider2D body;
@@ -49,15 +51,18 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Color currentSpriteColor = Color.white;
 
-
-    private void Start()
+    private void Awake()
     {
+        companion = GameObject.Find("Companion").GetComponent<Companion>();
         rb = GetComponent<Rigidbody2D>();
         an = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = GetComponent<EdgeCollider2D>();
         body = GetComponent<BoxCollider2D>();
+    }
 
+    private void Start()
+    {
         // power bar
         powerBar.setMaxPower(maxPower);
         currentPower = maxPower;
@@ -71,6 +76,8 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // Checks Abilities of the player - Companion
+        Abilities();
         // Checks if player is invincible
         Invincible();
         // Checks if the player is in the ground
@@ -290,6 +297,31 @@ public class Player : MonoBehaviour
         {
             currentHealth = collision.GetComponent<HealthRegen>().HealthRegenValue();
             return;
+        }
+    }
+
+    private void Abilities()
+    {
+        // Check for teleportation Ability
+        Teleport();
+    }
+
+    // Teleportation ability
+    private void Teleport()
+    {
+        bool canTP = false;
+        Vector2 TPdestination = Vector2.zero;
+
+        // Change input. this is a test
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            companion.CheckIfCanTeleport(out canTP, out TPdestination);
+        }
+
+        // if the player can teleport do stuff
+        if(canTP)
+        {
+            gameObject.transform.position = TPdestination;
         }
     }
 

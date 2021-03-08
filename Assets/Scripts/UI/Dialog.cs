@@ -6,15 +6,15 @@ using UnityEngine.UI;
 
 public class Dialog : MonoBehaviour
 {
-    [SerializeField] TextMeshProUGUI textDisplay;
-    [SerializeField] TextMeshProUGUI continueDisplay;
-    [SerializeField] string[] sentences;
+    [SerializeField] TextMeshProUGUI textDisplay = null;
+    [SerializeField] TextMeshProUGUI continueDisplay = null;
+    [SerializeField] string[] sentences = null;
     private int index;
     [SerializeField] float typingSpeed = 0.04f;
-    [SerializeField] float fadeSpeed = 0.01f;
+    //[SerializeField] float fadeSpeed = 0.01f;
     private bool continueText;
     private bool canContinue = false;
-    [SerializeField] Image textBox;
+    [SerializeField] Image textBox = null;
     [SerializeField] [Range(0f,255f)] float imageAlpha = 0.5f;
 
     public void Start()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HealthRegen : MonoBehaviour
 {
-    [SerializeField] PowerBar healthbar;
+    [SerializeField] PowerBar healthbar = null;
     [SerializeField] int healthRegenValue = 1;
     [SerializeField] bool fullRegen = false;
 

@@ -5,8 +5,8 @@ using UnityEngine;
 public class ConnectionBehavior : MonoBehaviour
 {
     
-    [SerializeField] GameObject companion;
-    [SerializeField] GameObject player;
+    [SerializeField] GameObject companion = null;
+    [SerializeField] GameObject player = null;
     [SerializeField] float xOffset = 0f;
     [SerializeField] float yOffset = 0f;
     [SerializeField] int resolution = 50;
@@ -21,7 +21,6 @@ public class ConnectionBehavior : MonoBehaviour
 
     float t0 = 0;
     float width = 1f;
-    bool useCurve = true;
 
     Vector3 companionPos;
     Vector3 playerPos;
