@@ -27,6 +27,7 @@ public class Wander : IState
     {
         if (pathIndex < path.Count - 1)
         {
+            Debug.Log("cheguei, cheguei chegando");
             var targetPos = path[pathIndex + 1].position;
             float speed = 0.4f * Time.deltaTime;
             enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, targetPos, speed);
