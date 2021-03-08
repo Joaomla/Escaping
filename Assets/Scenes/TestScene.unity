@@ -10651,7 +10651,7 @@ GameObject:
   - component: {fileID: 1109151173}
   - component: {fileID: 1109151175}
   m_Layer: 8
-  m_Name: Test Monster
+  m_Name: Companion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11032,6 +11032,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teleportToPosition: {x: 5, y: 0}
   grid: {fileID: 105207098}
+  destination: {x: 2.75, y: 0.25, z: 0}
 --- !u!1 &1337403131
 GameObject:
   m_ObjectHideFlags: 0
