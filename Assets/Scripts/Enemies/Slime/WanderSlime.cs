@@ -22,7 +22,7 @@ public class WanderSlime : IState
 
     }
 
-    public void Execute()
+    public void Execute()                               //We take a list of waypoints and move the slime through them, that's how it wanders
     {
         if (pathIndex < path.Count - 1)
         {
@@ -37,7 +37,7 @@ public class WanderSlime : IState
             }
         }
 
-        if(slime.SearchForPlayer())
+        if(slime.SearchForPlayer())                      //if slime finds player we change state TODO: Use raycasts to find player
         {
             Player player = GameObject.FindObjectOfType<Player>();
             slime.StateMachine.ChangeState(new TargetPlayer(slime, player));
