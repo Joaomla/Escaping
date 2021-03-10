@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
 {
     // Player Companion
     private Companion companion;
+
+    [Header("Horizontal Movement Variables")]
     // speed of the player in the x axis
     [SerializeField] float xSpeed = 1.5f;
     // movement of the player
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour
     private int playerFacing = 1;
 
     // Jumping variables
+    [Header("Jumping Variables")]
     [SerializeField] float jumpHeight = 4f; // jump height
     [SerializeField] float jumpingTime = 0.5f;  // time the player can jump
     private float currentJumpingTime;
@@ -22,15 +25,17 @@ public class Player : MonoBehaviour
     private bool jumpKey = false;   // is the jump key pressed
     private Collider2D feet;
 
-    // Powerbar
-    private int maxPower = 100;
-    private int currentPower;
-    [SerializeField] PowerBar powerBar = null;
-
     // Health bar
+    [Header("Health Variables")]
     [SerializeField] int maxHealth = 10;
-    private int currentHealth;
     [SerializeField] PowerBar healthbar = null;
+    private int currentHealth;
+
+    // Powerbar
+    [Header("Power Variables")]
+    [SerializeField] int maxPower = 100;
+    [SerializeField] PowerBar powerBar = null;
+    private int currentPower;
 
     // Damage variables
     private Collider2D body;
@@ -42,9 +47,17 @@ public class Player : MonoBehaviour
     private int damagedValue;
 
     // Invincible variables
-    private bool invincible = false;
+    [Header("Invincibility variables")]
     [SerializeField] float invincibilityTime = 2f;
+    private bool invincible = false;
     private float currentInvincibleTime;
+
+    // ability variables
+    [Header("Teleportation Variables")]
+    public int TeleportationCost = 10;
+    [HideInInspector] public bool isTeleporting = false;
+    private Vector2 tpDestination;
+
 
     private Rigidbody2D rb;
     private Animator an;
@@ -76,6 +89,9 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // if the player is teleporting, stop. the player can't interact with anything
+        if(isTeleporting) return;
+
         // Checks Abilities of the player - Companion
         Abilities();
         // Checks if player is invincible
@@ -303,26 +319,55 @@ public class Player : MonoBehaviour
     private void Abilities()
     {
         // Check for teleportation Ability
-        Teleport();
+        TeleportAbility();
     }
 
     // Teleportation ability
-    private void Teleport()
+    private void TeleportAbility()
     {
         bool canTP = false;
-        Vector2 TPdestination = Vector2.zero;
 
+        // if the player is in movement, they cannot teleport
+        if (rb.velocity != Vector2.zero) return;
+
+        // If the player wants to teleport
         // Change input. this is a test
         if (Input.GetKeyDown(KeyCode.T))
         {
-            companion.CheckIfCanTeleport(out canTP, out TPdestination);
+            companion.CheckIfCanTeleport(out canTP, out tpDestination);
         }
 
-        // if the player can teleport do stuff
+        // if the player can teleport, do it
         if(canTP)
         {
-            gameObject.transform.position = TPdestination;
+            isTeleporting = true;
+            an.SetBool("isTeleporting", true);
+            AddPower(-TeleportationCost); // Spends power
         }
+    }
+
+    // Event after the teleportation phase 1
+    public void TeleportEvent(int phase)
+    {
+        // the player just succumbed to darkness
+        if (phase == 0)
+        {
+            rb.transform.position = tpDestination + new Vector2(0, 0.3f); // + a safe margin
+        }
+        else if (phase == 1)  // The player finished teleportation
+        {
+            isTeleporting = false;
+            an.SetBool("isTeleporting", false);
+        }
+    }
+
+    private void AddPower(int power)
+    {
+        // current power is within the boundaries estabilished
+        currentPower = Mathf.Min(maxPower, currentPower + power);
+        currentPower = Mathf.Max(0, currentPower + power);
+        // update powerbar
+        powerBar.SetPower(currentPower);
     }
 
 }
