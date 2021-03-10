@@ -28,6 +28,11 @@ public class SlimeAttack : IState
             Vector2 jumpVelocityToAdd = new Vector2(slime.horizontalSpeed, slime.verticalSpeed);   //jump
             myRigidBody.velocity += jumpVelocityToAdd;
         }
+        else
+        {
+            Vector2 jumpVelocityToAdd = new Vector2(-slime.horizontalSpeed, slime.verticalSpeed);   //jump
+            myRigidBody.velocity += jumpVelocityToAdd;
+        }
         slime.StartCoroutine(CoolDownPhase());
         
     }
