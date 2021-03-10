@@ -415,6 +415,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3108250467502686402, guid: adb521524835325448b4851977aed816,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3108250467502686403, guid: adb521524835325448b4851977aed816,
         type: 3}
       propertyPath: m_BodyType
@@ -469,6 +474,16 @@ PrefabInstance:
         type: 3}
       propertyPath: isSlimeInCooldown
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108250467502686462, guid: adb521524835325448b4851977aed816,
+        type: 3}
+      propertyPath: verticalSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3108250467502686462, guid: adb521524835325448b4851977aed816,
+        type: 3}
+      propertyPath: horizontalSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb521524835325448b4851977aed816, type: 3}
