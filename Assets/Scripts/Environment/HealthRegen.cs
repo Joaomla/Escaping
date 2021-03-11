@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class HealthRegen : MonoBehaviour
 {
-    [SerializeField] PowerBar healthbar = null;
     [SerializeField] int healthRegenValue = 1;
     [SerializeField] bool fullRegen = false;
 
-    public int HealthRegenValue()
+    private void OnTriggerEnter2D( Collider2D collision )
     {
-        // full regen of the life
-        if( fullRegen )
+        // this thing contacts the player -> player gets healed
+        if (collision.tag == "Player")
         {
-            return (int)healthbar.slider.maxValue;
-        }
+            // full regen
+            if (fullRegen)
+            {
+                collision.GetComponent<Player>().GetsHealed();
+                return;
+            }
 
-        return healthbar.GetPower() + healthRegenValue;
+            // partial regen
+            collision.GetComponent<Player>().GetsHealed(healthRegenValue);
+        }
     }
 }

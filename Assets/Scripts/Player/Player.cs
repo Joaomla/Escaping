@@ -4,65 +4,52 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Player Companion
-    private Companion companion;
+    // player body
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public BoxCollider2D body;
+    [HideInInspector] public EdgeCollider2D feet;
 
-    [Header("Horizontal Movement Variables")]
-    // speed of the player in the x axis
-    [SerializeField] float xSpeed = 1.5f;
-    // movement of the player
-    private float xMovement;
-    // side the player is facing
-    private int playerFacing = 1;
+    // player movement
+    PlayerMovement playerMovement;
+    [HideInInspector] public float xMovement;        // horizontal movement of the player
+    [HideInInspector] public int playerFacing = 1;   // side the player is facing (right)
+    [HideInInspector] public bool isFloored = true;  // is the player on the ground
 
-    // Jumping variables
-    [Header("Jumping Variables")]
-    [SerializeField] float jumpHeight = 4f; // jump height
-    [SerializeField] float jumpingTime = 0.5f;  // time the player can jump
-    private float currentJumpingTime;
-    private bool isFloored = true; // is the player on the ground
-    private bool doJump = false; // is the action to jump
-    private bool jumpKey = false;   // is the jump key pressed
-    private Collider2D feet;
+    // player's companion
+    [Header("Companion")]
+    [SerializeField] public Companion companion;
 
-    // Health bar
+    // Player's Health
     [Header("Health Variables")]
     [SerializeField] int maxHealth = 10;
     [SerializeField] PowerBar healthbar = null;
     private int currentHealth;
 
-    // Powerbar
+    // Player's Power
     [Header("Power Variables")]
     [SerializeField] int maxPower = 100;
     [SerializeField] PowerBar powerBar = null;
     private int currentPower;
 
-    // Damage variables
-    private Collider2D body;
-    private bool isDamaged = false;
-    private bool knockbacked = false;
-    private Vector2 dangerOrigin;
-    private float knockbackValue;
-    private float currentKnockbackTime;
-    private int damagedValue;
+    // Abilities' Variables
+    [Header("Abilities' Cost")]
+    public int TeleportationCost = 10;
+    Abilities abilities;
+    [HideInInspector] public bool isTeleporting;
 
     // Invincible variables
     [Header("Invincibility variables")]
-    [SerializeField] float invincibilityTime = 2f;
-    private bool invincible = false;
-    private float currentInvincibleTime;
+    public float invincibilityTime = 2f;
+    public int numberOfBlinks = 5;          // number of blinks whilst invincible
+    Invincible invincible;
+    [HideInInspector]public bool isInvincible = false;
+    [HideInInspector]public float currentInvincibleTime;
 
-    // ability variables
-    [Header("Teleportation Variables")]
-    public int TeleportationCost = 10;
-    [HideInInspector] public bool isTeleporting = false;
-    private Vector2 tpDestination;
+    //Visuals
+    [HideInInspector] public Animator an;
+    [HideInInspector] public SpriteRenderer spriteRenderer;
+    [HideInInspector] public Color currentSpriteColor = Color.white;
 
-
-    private Rigidbody2D rb;
-    private Animator an;
-    private SpriteRenderer spriteRenderer;
-    private Color currentSpriteColor = Color.white;
 
     private void Awake()
     {
@@ -72,6 +59,10 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         feet = GetComponent<EdgeCollider2D>();
         body = GetComponent<BoxCollider2D>();
+
+        playerMovement = GetComponent<PlayerMovement>();
+        abilities = GetComponent<Abilities>();
+        invincible = GetComponent<Invincible>();
     }
 
     private void Start()
@@ -82,286 +73,26 @@ public class Player : MonoBehaviour
 
         // health bar
         currentHealth = maxHealth;
-
-        // jumping time
-        currentJumpingTime = jumpingTime;
     }
 
-    void Update()
+    private void Update()
     {
         // if the player is teleporting, stop. the player can't interact with anything
-        if(isTeleporting) return;
+        if (isTeleporting) return;
 
         // Checks Abilities of the player - Companion
-        Abilities();
+        abilities.Check();
         // Checks if player is invincible
-        Invincible();
-        // Checks if the player is in the ground
-        IsGrounded();
-        // checks if player can jump
-        Jump();
-        // checks if can move
-        Move();
-        // Animation Update
+        invincible.Check();
+        // Checks if the player can move
+        playerMovement.Check();
+        // Updates the animation
         Animate();
 
-        // test
-        if (Input.GetKey(KeyCode.C)) currentPower--;
-        if (Input.GetKey(KeyCode.V)) currentPower++;
-        powerBar.SetPower(currentPower);
-        healthbar.SetPower(currentHealth);
     }
 
-    private void FixedUpdate()
-    {
-        // if player is being knockbacked, it can't move
-        if (knockbacked)
-        {
-            xMovement = 0;
-        }
-
-        if (isDamaged || currentKnockbackTime > 0 )
-        {
-            // player is damaged
-            isDamaged = false;
-
-            // player becomes invincible for a while
-            invincible = true;
-            currentInvincibleTime = invincibilityTime;
-            
-            // knockback based on the player position and the danger position
-            Vector2 playerPos = transform.position;
-            Vector2 knockbackDirection = playerPos - dangerOrigin;
-            
-            rb.velocity = new Vector2(knockbackValue * Mathf.Sign(knockbackDirection.x), knockbackValue * Mathf.Sign(knockbackDirection.y));
-            
-            // time in which the knockback force is applied to the player
-            currentKnockbackTime -= Time.fixedDeltaTime;
-        }
-        else if (doJump)
-        {
-            // Player can jump
-            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-            isFloored = false;
-            doJump = false;
-            currentJumpingTime = jumpingTime;
-        }
-        else if ( jumpKey && rb.velocity.y > 0f && currentJumpingTime > 0)  // long jump
-        {
-            rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
-            currentJumpingTime -= Time.fixedDeltaTime;
-        }
-        else if (xMovement != 0)
-        {
-            // player is moving horizontally
-            if (isFloored)
-            {
-                // player is on the floor
-                rb.velocity = new Vector2(xMovement*xSpeed, 0);
-            }
-            else
-            {
-                // player is in mid-air
-                rb.velocity = new Vector2(xMovement * xSpeed, rb.velocity.y);
-                if (currentJumpingTime > 0)
-                {
-                    currentJumpingTime -= Time.fixedDeltaTime;
-                }
-            }
-        }
-        else
-        {
-            if (knockbacked)
-            {
-                // if player is knockbacked, it will be thrown in the air, so the x velocity remains
-                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
-                return;
-            }
-
-            // if player is in mid-air and there's no horizontal input, the player won't move in the x axis
-            rb.velocity = new Vector2(0, rb.velocity.y);
-            currentJumpingTime -= Time.fixedDeltaTime;
-        }
-    }
-
-    // Checks if player is on the ground
-    private void IsGrounded()
-    {
-        isFloored = false;
-
-        if (feet.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
-        {
-            knockbacked = false;
-            isFloored = true;
-            return;
-        }
-    }
-
-    // Checks if player can jump
-    private void Jump()
-    {
-        // Player can't just jump if they hold the jump key constantly. they have to release and press it again
-        bool canJump = false;
-        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) canJump = true;
-
-        // jumpkey is the variable for the long jump
-        jumpKey = false;
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) jumpKey = true;
-
-        if ( canJump && isFloored )
-        {
-            doJump = true;
-        }
-    }
-
-    // Checks if player can move
-    private void Move()
-    {
-        xMovement = Input.GetAxisRaw("Horizontal");
-
-        // update where the player is facing
-        if (xMovement != 0) playerFacing = (int)xMovement;
-    }
-
-    // Update animation
-    private void Animate()
-    {
-        an.SetFloat("xMovement", Mathf.Abs(xMovement));
-        an.SetBool("isJumping", false);
-        if (!isFloored) an.SetBool("isJumping", true);
-        spriteRenderer.flipX = (playerFacing != 1);
-        spriteRenderer.color = currentSpriteColor;
-    }
-
-    private void OnTriggerEnter2D( Collider2D collision )
-    {
-        CheckDanger(collision);
-        CheckCollectible(collision);
-    }
-
-    private void CheckDanger( Collider2D collision )
-    {
-        if (!body.IsTouchingLayers(LayerMask.GetMask("Danger")))
-        {
-            // player is not touching anything dangerous
-            return;
-        }
-
-        if (invincible)
-        {
-            // player is invincible, so no worries
-            return;
-        }
-
-        // other object damages the player
-        if (collision.GetComponent<ContactDamage>() != null)
-        {
-            knockbacked = true;
-            isDamaged = true;
-
-            // danger agent information
-            dangerOrigin = collision.gameObject.transform.position;
-            knockbackValue = collision.GetComponent<ContactDamage>().GetKnockback();
-            damagedValue = collision.GetComponent<ContactDamage>().GetDmage();
-            currentKnockbackTime = collision.GetComponent<ContactDamage>().GetKnockbackTime();
-
-            currentHealth = healthbar.GetPower() - damagedValue;
-        }
-    }
-
-    private void Invincible()
-    {
-        // the player is invincible
-        if (currentInvincibleTime > 0)
-        {
-            if (currentInvincibleTime == invincibilityTime) StartCoroutine(Blink());
-            currentInvincibleTime -= Time.deltaTime;
-            return;
-        }
-
-        invincible = false;
-    }
-
-    // Blinks the player sprite with a red color
-    IEnumerator Blink()
-    {
-        // number of blinks within the invincibility time interval
-        float numberOfBlinks = 5;
-
-        // time per each blink (set of red - white colors)
-        float timePerBlink = invincibilityTime / (2 * numberOfBlinks - 1);
-
-        for (int n = 0; n < numberOfBlinks; n++)
-        {
-            currentSpriteColor = Color.red;
-            yield return new WaitForSeconds(timePerBlink); // wait a limited time
-            currentSpriteColor = Color.white;
-            yield return new WaitForSeconds(timePerBlink); // wait a limited time
-        }
-    }
-
-    private void CheckCollectible( Collider2D collision )
-    {
-        if (!body.IsTouchingLayers(LayerMask.GetMask("Collectible")))
-        {
-            // player is not touching any collectible
-            return;
-        }
-
-        // other object heals the player
-        if (collision.GetComponent<HealthRegen>() != null)
-        {
-            currentHealth = collision.GetComponent<HealthRegen>().HealthRegenValue();
-            return;
-        }
-    }
-
-    private void Abilities()
-    {
-        // Check for teleportation Ability
-        TeleportAbility();
-    }
-
-    // Teleportation ability
-    private void TeleportAbility()
-    {
-        bool canTP = false;
-
-        // if the player is in movement, they cannot teleport
-        if (rb.velocity != Vector2.zero) return;
-
-        // If the player wants to teleport
-        // Change input. this is a test
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            companion.CheckIfCanTeleport(out canTP, out tpDestination);
-        }
-
-        // if the player can teleport, do it
-        if(canTP)
-        {
-            isTeleporting = true;
-            an.SetBool("isTeleporting", true);
-            AddPower(-TeleportationCost); // Spends power
-        }
-    }
-
-    // Event after the teleportation phase 1
-    public void TeleportEvent(int phase)
-    {
-        // the player just succumbed to darkness
-        if (phase == 0)
-        {
-            rb.transform.position = tpDestination + new Vector2(0, 0.3f); // + a safe margin
-        }
-        else if (phase == 1)  // The player finished teleportation
-        {
-            isTeleporting = false;
-            an.SetBool("isTeleporting", false);
-        }
-    }
-
-    private void AddPower(int power)
+    // Adds a given amount of power to the powerbar and updates it
+    public void AddPower( int power )
     {
         // current power is within the boundaries estabilished
         currentPower = Mathf.Min(maxPower, currentPower + power);
@@ -370,4 +101,50 @@ public class Player : MonoBehaviour
         powerBar.SetPower(currentPower);
     }
 
+    // Update animation
+    private void Animate()
+    {
+        spriteRenderer.color = currentSpriteColor;      // updates the color of the player sprite
+    }
+
+    // Hurts the player
+    public void GetsHurt( int damage )
+    {
+        // if the player is invincible, fuck that
+        if (isInvincible) return;
+
+        // player's health is positive or 0, only
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
+        healthbar.SetPower(currentHealth);
+    }
+
+    // Change contactDamage to be a class of dangerous objects/enemies
+    public void GetsHurt( int damage, ContactDamage danger )
+    {
+        // if the player is invincible, fuck that
+        if (isInvincible) return;
+
+        // player's health is positive or 0, only
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
+        healthbar.SetPower(currentHealth);
+
+        playerMovement.dangerOrigin = danger.transform.position;           // position of the dangerous agent
+        playerMovement.knockbackValue = danger.GetKnockback();             // knockback value of the dangerous agent
+        playerMovement.currentKnockbackTime = danger.GetKnockbackTime();   // duration of the knockback
+    }
+
+    // player gets therapy
+    public void GetsHealed( int healingValue )
+    {
+        // health is limited
+        currentHealth = Mathf.Min(currentHealth + healingValue, maxHealth);
+        healthbar.SetPower(currentHealth);
+    }
+
+    // the poor thing gets a full heal
+    public void GetsHealed()
+    {
+        currentHealth = maxHealth;
+        healthbar.SetPower(currentHealth);
+    }
 }

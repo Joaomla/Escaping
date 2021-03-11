@@ -34,7 +34,7 @@ public class Slime : MonoBehaviour
 
         
     void Start() {
-        rb = this.GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         StateMachine.ChangeState(new WanderSlime(this, path));
 
     }
@@ -43,7 +43,7 @@ public class Slime : MonoBehaviour
     {
         if(isSlimeInCooldown){return;}  //slime has a cooldown after attack this is where I apply it
         StateMachine.Update();
-        Debug.Log(isSlimeInCooldown);
+        //Debug.Log(isSlimeInCooldown);
     }
 
 
