@@ -25,12 +25,12 @@ public class SlimeAttack : IState
         WhereIsPlayer();                                                              //figure out where player is
         if(!playerIsLeft)
         {
-            Vector2 jumpVelocityToAdd = new Vector2(slime.horizontalSpeed, slime.verticalSpeed);   //jump
+            Vector2 jumpVelocityToAdd = new Vector2(slime.horizontalSpeed, slime.verticalSpeed);   //jump right
             myRigidBody.velocity += jumpVelocityToAdd;
         }
         else
         {
-            Vector2 jumpVelocityToAdd = new Vector2(-slime.horizontalSpeed, slime.verticalSpeed);   //jump
+            Vector2 jumpVelocityToAdd = new Vector2(-slime.horizontalSpeed, slime.verticalSpeed);   //jump left
             myRigidBody.velocity += jumpVelocityToAdd;
         }
         slime.StartCoroutine(CoolDownPhase());
@@ -41,7 +41,7 @@ public class SlimeAttack : IState
     {
         if (Vector3.Distance(slime.transform.position,player.transform.position) < slime.minDstToAtk) //still check if player is in attack range
         {
-            slime.StateMachine.ChangeState(new SlimeAttack(slime, player));                           //if it is we attack again by entering this state again (we need a cooldown so maybe try couroutine here)
+            Enter();                                                                                  //if it is we attack again by entering this state again (we need a cooldown so maybe try couroutine here)
         }
         else
         {
