@@ -5,7 +5,7 @@ using UnityEngine;
 public class TeleportPOI : MonoBehaviour
 {
     [SerializeField] Vector2Int teleportToPosition; // position to go (in the grid)
-    [SerializeField] Grid grid; // the grid being used
+    [SerializeField] Grid grid = null; // the grid being used
     public Vector3 destination; // destination in world coordinates
 
     private void OnDrawGizmos()
