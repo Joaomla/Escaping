@@ -19,6 +19,7 @@ public class Invincible : MonoBehaviour
         {
             if (player.currentInvincibleTime == player.invincibilityTime) StartCoroutine(Blink());
             player.currentInvincibleTime -= Time.deltaTime;
+
             return;
         }
 

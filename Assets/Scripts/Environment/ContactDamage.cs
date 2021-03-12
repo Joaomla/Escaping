@@ -23,7 +23,16 @@ public class ContactDamage : MonoBehaviour
         return knockbackTime;
     }
 
-    private void OnTriggerEnter2D( Collider2D collision )
+    private void OnTriggerEnter2D( Collider2D other )
+    {
+        //  this thing contacts the player -> player gets hurt
+        if (other.tag == "Player")
+        {
+            other.GetComponent<Player>().GetsHurt(damage, this);
+        }
+    }
+
+    private void OnTriggerStay2D( Collider2D collision )
     {
         //  this thing contacts the player -> player gets hurt
         if (collision.tag == "Player")

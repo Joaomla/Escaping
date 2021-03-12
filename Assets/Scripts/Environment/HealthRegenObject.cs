@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthRegenObject : MonoBehaviour
+public class HealthRegenItem : MonoBehaviour
 {
     [SerializeField] int healthRegenValue = 1;
     [SerializeField] bool fullRegen = false;
@@ -16,7 +16,6 @@ public class HealthRegenObject : MonoBehaviour
             if (fullRegen)
             {
                 collision.GetComponent<Player>().GetsHealed();
-                gameObject.SetActive(false);
                 return;
             }
 
