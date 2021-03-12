@@ -24,6 +24,8 @@ public class TargetPlayer : IState
     public void Enter() //We define our target position, since slimes can't fly we only target the player's X position
     {
         targetPos = new Vector3(player.transform.position.x, slime.transform.position.y, slime.transform.position.z);
+        float myVelocity = targetPos.x - slime.transform.position.x;
+        
 
 
     }
@@ -32,6 +34,7 @@ public class TargetPlayer : IState
     {
         targetPos = new Vector3(player.transform.position.x, slime.transform.position.y, slime.transform.position.z);
         slime.transform.position = Vector3.MoveTowards(slime.transform.position, targetPos, slime.targetedSpeed * Time.deltaTime);
+        slime.myvelocitySign = targetPos.x - slime.transform.position.x;
 
         if(!slime.SearchForPlayer())
         {

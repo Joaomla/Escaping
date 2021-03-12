@@ -27,8 +27,8 @@ public class WanderSlime : IState
         if (pathIndex < path.Count - 1)
         {
             var targetPos = path[pathIndex + 1].position;
-            float speed = 0.5f * Time.deltaTime;
-            slime.transform.position = Vector3.MoveTowards(slime.transform.position, targetPos, speed);
+            slime.transform.position = Vector3.MoveTowards(slime.transform.position, targetPos, slime.wanderSpeed * Time.deltaTime);
+            slime.myvelocitySign = targetPos.x - slime.transform.position.x;
 
             if (Vector3.Distance(slime.transform.position, targetPos) < 0.5f)
             {

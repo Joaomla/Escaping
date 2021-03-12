@@ -6,7 +6,6 @@ using UnityEngine;
 public class Slime : Enemy
 {
 
-    //TODO: define the distances of attack and various speeds here
     public StateMachine StateMachine = new StateMachine();
 
     [SerializeField] public List<Transform> path = new List<Transform>();
@@ -15,11 +14,14 @@ public class Slime : Enemy
     bool FoundPlayer = false;
 
     public bool isSlimeInCooldown = false;
+    public float myvelocitySign;
+
+    SpriteRenderer mysprite;
 
     Rigidbody2D rb;
 
     [Header("Slime Wander Stats")]
-    [SerializeField] public float wanderSpeed;
+    [SerializeField] public float wanderSpeed = 0.5f;
 
 
     [Header("Slime Target Stats")]
@@ -35,6 +37,7 @@ public class Slime : Enemy
         
     void Start() {
         rb = GetComponent<Rigidbody2D>();
+        mysprite = GetComponent<SpriteRenderer>();
         StateMachine.ChangeState(new WanderSlime(this, path));
 
     }
@@ -43,7 +46,7 @@ public class Slime : Enemy
     {
         if(isSlimeInCooldown){return;}  //slime has a cooldown after attack this is where I apply it
         StateMachine.Update();
-        //Debug.Log(isSlimeInCooldown);
+        GetHorizontalSpeed();
     }
 
 
@@ -77,6 +80,15 @@ public class Slime : Enemy
         if(other.tag == "Player")
         {
             FoundPlayer = false;
+        }
+    }
+
+    void GetHorizontalSpeed()
+    {
+        bool slimeHasHorizontalSpeed = Mathf.Abs(myvelocitySign) > Mathf.Epsilon;
+        if(slimeHasHorizontalSpeed)
+        {
+            transform.localScale = new Vector2(Mathf.Sign(myvelocitySign), 1f);
         }
     }
 }

@@ -17,7 +17,6 @@ public class SlimeAttack : IState
         this.slime = slime;
         this.player = player;
         myRigidBody = slime.GetComponent<Rigidbody2D>();
-        Debug.Log("I attacked");
     }
 
     public void Enter()
@@ -30,15 +29,18 @@ public class SlimeAttack : IState
         }
         else
         {
+            
             Vector2 jumpVelocityToAdd = new Vector2(-slime.horizontalSpeed, slime.verticalSpeed);   //jump left
             myRigidBody.velocity += jumpVelocityToAdd;
         }
+        
         slime.StartCoroutine(CoolDownPhase());
         
     }
 
     public void Execute()
     {
+        WhereIsPlayer();
         if (Vector3.Distance(slime.transform.position,player.transform.position) < slime.minDstToAtk) //still check if player is in attack range
         {
             Enter();                                                                                  //if it is we attack again by entering this state again (we need a cooldown so maybe try couroutine here)
@@ -60,10 +62,12 @@ public class SlimeAttack : IState
         if (slime.transform.position.x < player.transform.position.x )
         {
             playerIsLeft = false;
+            slime.myvelocitySign = 1;
         }
         else
         {
             playerIsLeft = true;
+            slime.myvelocitySign = -1;
         }
     }
 

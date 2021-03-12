@@ -11,7 +11,7 @@ public class AttackRange : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(enemiesWithinRange.Count);
+        //Debug.Log(enemiesWithinRange.Count);
     }
 
     private void OnTriggerEnter2D( Collider2D collision )
