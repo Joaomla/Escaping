@@ -19,6 +19,11 @@ public class Player : MonoBehaviour
     [Header("Companion")]
     [SerializeField] public Companion companion;
 
+    // Player's Attack
+    [Header("Attack Variables")]
+    public int AttackValue = 1;
+    private Attack attack;
+
     // Player's Health
     [Header("Health Variables")]
     [SerializeField] int maxHealth = 10;
@@ -63,6 +68,7 @@ public class Player : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         abilities = GetComponent<Abilities>();
         invincible = GetComponent<Invincible>();
+        attack = GetComponent<Attack>();
     }
 
     private void Start()
@@ -86,6 +92,8 @@ public class Player : MonoBehaviour
         invincible.Check();
         // Checks if the player can move
         playerMovement.Check();
+        // Checks if the player is attacking
+        attack.Check();
         // Updates the animation
         Animate();
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Slime : MonoBehaviour
+public class Slime : Enemy
 {
 
     //TODO: define the distances of attack and various speeds here
