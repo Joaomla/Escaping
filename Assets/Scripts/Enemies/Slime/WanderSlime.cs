@@ -9,6 +9,10 @@ public class WanderSlime : IState
     public List<Transform> path = new List<Transform>();
 
     int pathIndex = 0;
+    bool canFlip = true;
+    //bool outOfBounds;
+
+    int thingsInPeriscope;
     
     public WanderSlime(Slime slime, List<Transform> path)
     {
@@ -24,7 +28,32 @@ public class WanderSlime : IState
 
     public void Execute()                               //We take a list of waypoints and move the slime through them, that's how it wanders
     {
-        if (pathIndex < path.Count - 1)
+        slime.rb.velocity = new Vector2(slime.wanderSpeed, 0f);
+        if(Vector2.Distance(slime.transform.position, slime.pointOfMySpawn) >= 1f){
+            //outOfBounds = true;
+            Flip();
+            canFlip = false;
+        }
+        else
+        {
+            canFlip = true;
+            //outOfBounds = false;
+        }
+        
+        if(!slime.periscope.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
+        {
+            Debug.Log("here");
+            Flip();
+        }
+        else if(slime.periscope.IsTouchingLayers(LayerMask.GetMask("Danger")))
+        {
+            Debug.Log("touched danger");
+            Flip();
+        }
+        
+        slime.myvelocitySign = Mathf.Sign(slime.wanderSpeed);
+        
+       /* if (pathIndex < path.Count - 1)
         {
             var targetPos = path[pathIndex + 1].position;
             slime.transform.position = Vector3.MoveTowards(slime.transform.position, targetPos, slime.wanderSpeed * Time.deltaTime);
@@ -35,7 +64,7 @@ public class WanderSlime : IState
                 pathIndex++;
                 if (pathIndex >= path.Count - 1) {pathIndex = -1;}
             }
-        }
+        }*/
 
         if(slime.SearchForPlayer())                      //if slime finds player we change state TODO: Use raycasts to find player
         {
@@ -46,6 +75,13 @@ public class WanderSlime : IState
 
     public void Exit()
     {
+
+    }
+    
+    void Flip()
+    {
+        if(!canFlip){return;}
+        slime.wanderSpeed = -slime.wanderSpeed;
 
     }
 }

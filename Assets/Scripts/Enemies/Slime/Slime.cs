@@ -8,7 +8,7 @@ public class Slime : Enemy
 
     public StateMachine StateMachine = new StateMachine();
 
-    [SerializeField] public List<Transform> path = new List<Transform>();
+    public List<Transform> path = new List<Transform>();
 
     [SerializeField] public Collider2D trigger;
     bool FoundPlayer = false;
@@ -18,10 +18,12 @@ public class Slime : Enemy
 
     SpriteRenderer mysprite;
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
+    public Vector2 pointOfMySpawn;
 
     [Header("Slime Wander Stats")]
     [SerializeField] public float wanderSpeed = 0.5f;
+    [SerializeField] public Collider2D periscope;
 
 
     [Header("Slime Target Stats")]
@@ -34,15 +36,21 @@ public class Slime : Enemy
     [SerializeField] public float horizontalSpeed = 2f;
     [SerializeField] public float coolDownTime = 2f;
 
-        
+    //TEST
+    public void ReceivePath(List<Transform> path)
+    {
+        this.path = path;
+    }   
+
     void Start() {
+        pointOfMySpawn = transform.position;
         rb = GetComponent<Rigidbody2D>();
         mysprite = GetComponent<SpriteRenderer>();
         StateMachine.ChangeState(new WanderSlime(this, path));
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if(isSlimeInCooldown){return;}  //slime has a cooldown after attack this is where I apply it
         StateMachine.Update();
