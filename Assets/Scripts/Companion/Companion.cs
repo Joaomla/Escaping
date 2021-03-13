@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class Companion : MonoBehaviour
 {
-    // comportamento do monstro será programado através de state machine (try)
+    // player
+    private Player player;
 
+    // the side this dude is facing. 1: right, -1: left
+    int companionFacing = 1;
+
+    // comportamento do monstro será programado através de state machine (try)
     public Vector3 myOriginalPosition;
-    
     
     public StateMachine stateMachine = new StateMachine();
 
     [SerializeField] PointChecker pointChecker = null;
-    
+
+    private void Awake()
+    {
+        player = GameObject.Find("Player").GetComponent<Player>();
+    }
+
     void Start()
     {
         stateMachine.ChangeState(new Searching(this));
@@ -23,6 +32,8 @@ public class Companion : MonoBehaviour
     void Update()
     {
         stateMachine.Update();
+
+        FacingPlayer();
     }
 
 
@@ -35,6 +46,16 @@ public class Companion : MonoBehaviour
     public Vector3 CheckTargetPos()
     {
         return pointChecker.targetPos;
+    }
+
+    private void FacingPlayer()
+    {
+        // companion should be facing the player
+        if(Mathf.Sign(player.transform.position.x - transform.position.x) != companionFacing)
+        {
+            companionFacing = -1 * companionFacing;
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     // Checks if the player can teleport (the companion is focused on a teleportation point)

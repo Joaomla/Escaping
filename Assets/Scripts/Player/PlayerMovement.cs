@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     Player player;
+    Companion companion;
 
     // player body
     Rigidbody2D rb;
@@ -12,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
 
     // visuals
     Animator an;
-    SpriteRenderer spriteRenderer;
 
     // Movement
     [Header("Horizontal Movement")]
@@ -39,11 +39,11 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
+        companion = GameObject.Find("Companion").GetComponent<Companion>();
 
         rb = GetComponent<Rigidbody2D>();
         feet = GetComponent<EdgeCollider2D>();
         an = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -170,7 +170,21 @@ public class PlayerMovement : MonoBehaviour
         xMovement = Input.GetAxisRaw("Horizontal");
 
         // update where the player is facing
-        if (xMovement != 0) playerFacing = (int)xMovement;
+        if (xMovement != 0 && (int)xMovement != playerFacing)
+        {
+            playerFacing = (int)xMovement;
+            if(companion.transform.IsChildOf(transform))
+            {
+                companion.transform.parent = null;
+                transform.localScale = new Vector3(playerFacing, transform.localScale.y, transform.localScale.z);
+                companion.transform.parent = transform;
+            }
+            else
+            {
+                transform.localScale = new Vector3(playerFacing, transform.localScale.y, transform.localScale.z);
+            }
+        }
+
     }
 
     // Update animation
@@ -179,7 +193,6 @@ public class PlayerMovement : MonoBehaviour
         an.SetFloat("xMovement", Mathf.Abs(xMovement));
         an.SetBool("isJumping", false);
         if (!isFloored) an.SetBool("isJumping", true);
-        spriteRenderer.flipX = (playerFacing != 1);
     }
 
 
