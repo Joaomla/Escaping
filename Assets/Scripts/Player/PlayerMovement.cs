@@ -173,18 +173,21 @@ public class PlayerMovement : MonoBehaviour
         if (xMovement != 0 && (int)xMovement != playerFacing)
         {
             playerFacing = (int)xMovement;
+
+            // the companion is currently a child of the player
             if(companion.transform.IsChildOf(transform))
             {
+                // remove child companion, change size and reset child
                 companion.transform.parent = null;
                 transform.localScale = new Vector3(playerFacing, transform.localScale.y, transform.localScale.z);
                 companion.transform.parent = transform;
             }
             else
             {
+                // change size
                 transform.localScale = new Vector3(playerFacing, transform.localScale.y, transform.localScale.z);
             }
         }
-
     }
 
     // Update animation

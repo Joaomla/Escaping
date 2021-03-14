@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
     // player movement
     PlayerMovement playerMovement;
     [HideInInspector] public float xMovement;        // horizontal movement of the player
-    [HideInInspector] public int playerFacing = 1;   // side the player is facing (right)
-    [HideInInspector] public bool isFloored = true;  // is the player on the ground
+    //[HideInInspector] public int playerFacing = 1;   // side the player is facing (right)
+    //[HideInInspector] public bool isFloored = true;  // is the player on the ground
 
     // player's companion
     [Header("Companion")]
@@ -84,7 +84,8 @@ public class Player : MonoBehaviour
     private void Update()
     {
         // if the player is teleporting, stop. the player can't interact with anything
-        if (isTeleporting) return;
+        // if the player is attacking, thy can't also do anything else
+        if (isTeleporting || attack.isAttacking) return;
 
         // Checks Abilities of the player - Companion
         abilities.Check();

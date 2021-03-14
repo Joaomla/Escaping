@@ -11,6 +11,9 @@ public class Attack : MonoBehaviour
     [SerializeField] float cooldown = 2f;
     bool canAttack = true;
 
+    // is the player currently attacking?
+    [HideInInspector] public bool isAttacking = false;
+
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -19,6 +22,9 @@ public class Attack : MonoBehaviour
 
     public void Check()
     {
+        // player can only attack if they are stopped
+        if (player.rb.velocity != Vector2.zero) return;
+
         // Change input
         if(Input.GetKeyDown(KeyCode.Space))
         {
@@ -28,16 +34,24 @@ public class Attack : MonoBehaviour
                 return;
             }
 
-            // for each enemy within range, attack
-            foreach (var enemy in attackRange.enemiesWithinRange)
-            {
-                // Change value
-                enemy.GetsHurt(player.AttackValue);
-            }
-
             canAttack = false;
+            player.an.SetBool("isAttacking", true);
+            isAttacking = true;
             StartCoroutine(AttackCooldown());
         }
+    }
+
+    public void AttackEvent()
+    {
+        // for each enemy within range, attack
+        foreach (var enemy in attackRange.enemies)
+        {
+            // Change value
+            enemy.GetsHurt(player.AttackValue);
+        }
+
+        player.an.SetBool("isAttacking", false);
+        isAttacking = false;
     }
 
     IEnumerator AttackCooldown()
