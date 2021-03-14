@@ -43,6 +43,7 @@ public class Slime : Enemy
     }   
 
     void Start() {
+        EnemyInit();
         pointOfMySpawn = transform.position;
         rb = GetComponent<Rigidbody2D>();
         mysprite = GetComponent<SpriteRenderer>();
@@ -63,11 +64,22 @@ public class Slime : Enemy
         return FoundPlayer;
     }
 
+    public override void GetsHurt( int damage, Vector2 origin )
+    {
+        // subtracts from the current health
+        currentHealth = Mathf.Max(currentHealth - damage, 0);
+        StartCoroutine(Blink());
 
-    
+        if (currentHealth == 0) Die();
+
+        // knockback direction
+        Vector2 knockbackDirection = (new Vector2(transform.position.x, transform.position.y) - origin).normalized;
+
+        rb.velocity = new Vector2(receivedKnockbackValue * Mathf.Sign(knockbackDirection.x), receivedKnockbackValue * Mathf.Sign(knockbackDirection.y));
+    }
 
 
-    void OnTriggerEnter2D(Collider2D other) 
+void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.tag == "Player")
         {

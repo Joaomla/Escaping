@@ -4062,10 +4062,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc438ff7b922ee4d91d9468fb6d32bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 0.95
-  angle: 0.67
-  xDeviation: 0
-  enemies: []
+  distance: 0.8
+  angle: 0.96
+  xDeviation: 0.28
+  enemies:
+  - {fileID: 0}
 --- !u!58 &737833621
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -11260,7 +11261,7 @@ MonoBehaviour:
   feet: {fileID: 0}
   xMovement: 0
   companion: {fileID: 1109151173}
-  AttackValue: 0
+  AttackValue: 1
   maxHealth: 10
   healthbar: {fileID: 1389256081}
   maxPower: 100
@@ -11287,6 +11288,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldown: 0.5
+  isAttacking: 0
 --- !u!1 &1662930016
 GameObject:
   m_ObjectHideFlags: 0

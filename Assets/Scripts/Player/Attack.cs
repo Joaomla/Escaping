@@ -43,13 +43,19 @@ public class Attack : MonoBehaviour
 
     public void AttackEvent()
     {
+        // copies the attackRange list in case an enemy is despawn in the middle of the attack
+        List<Enemy> enemies = new List<Enemy>(attackRange.enemies);
+
         // for each enemy within range, attack
-        foreach (var enemy in attackRange.enemies)
+        foreach (var enemy in enemies)
         {
-            // Change value
-            enemy.GetsHurt(player.AttackValue);
+            if (enemy == null) continue;
+
+            // the enemy gets hurt
+            enemy.GetsHurt(player.AttackValue, transform.position);
         }
 
+        // reset attack variables
         player.an.SetBool("isAttacking", false);
         isAttacking = false;
     }
