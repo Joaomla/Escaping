@@ -29,11 +29,21 @@ public class WanderSlime : IState
 
     public void Execute()                               //We take a list of waypoints and move the slime through them, that's how it wanders
     {
+        if (slime.SearchForPlayer())                      //if slime finds player we change state TODO: Use raycasts to find player
+        {
+            Player player = GameObject.FindObjectOfType<Player>();
+            slime.StateMachine.ChangeState(new TargetPlayer(slime, player));
+        }
+
         slime.rb.velocity = new Vector2(slime.wanderSpeed, 0f);
         if(Vector2.Distance(slime.transform.position, slime.pointOfMySpawn) >= 1f){
-            //outOfBounds = true;
-            Flip();
-            canFlip = false;
+            // if the slime is facing the wrong direction, flip it
+            if(slime.myvelocitySign == Mathf.Sign(slime.transform.position.x - slime.pointOfMySpawn.x))
+            {
+                //outOfBounds = true;
+                Flip();
+                canFlip = false;
+            }
         }
         else
         {
@@ -66,12 +76,6 @@ public class WanderSlime : IState
                 if (pathIndex >= path.Count - 1) {pathIndex = -1;}
             }
         }*/
-
-        if(slime.SearchForPlayer())                      //if slime finds player we change state TODO: Use raycasts to find player
-        {
-            Player player = GameObject.FindObjectOfType<Player>();
-            slime.StateMachine.ChangeState(new TargetPlayer(slime, player));
-        }
     }
 
     public void Exit()

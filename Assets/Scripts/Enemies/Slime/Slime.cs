@@ -97,6 +97,8 @@ public class Slime : Enemy
         Vector2 knockbackDirection = (new Vector2(transform.position.x, transform.position.y) - origin).normalized;
 
         rb.velocity = new Vector2(receivedKnockbackValue * Mathf.Sign(knockbackDirection.x), receivedKnockbackValue * Mathf.Sign(knockbackDirection.y));
+
+        StateMachine.ChangeState(new SlimeKnocked(this));
     }
 
 #region Triggers que agora não servem para absolutamente nada

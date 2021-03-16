@@ -26,7 +26,7 @@ public class ContactDamage : MonoBehaviour
     private void OnTriggerEnter2D( Collider2D other )
     {
         //  this thing contacts the player -> player gets hurt
-        if (other.tag == "Player")
+        if (other.GetComponent<Player>())
         {
             other.GetComponent<Player>().GetsHurt(damage, this);
         }
@@ -35,7 +35,7 @@ public class ContactDamage : MonoBehaviour
     private void OnTriggerStay2D( Collider2D collision )
     {
         //  this thing contacts the player -> player gets hurt
-        if (collision.tag == "Player")
+        if (collision.GetComponent<Player>())
         {
             Debug.Log(collision.name);
             collision.GetComponent<Player>().GetsHurt(damage, this);
