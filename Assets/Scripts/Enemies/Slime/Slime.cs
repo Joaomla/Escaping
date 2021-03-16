@@ -11,7 +11,7 @@ public class Slime : Enemy
     public List<Transform> path = new List<Transform>();
 
     [SerializeField] public Collider2D trigger;
-    bool FoundPlayer = false;
+    //bool FoundPlayer = false;
 
     public bool isSlimeInCooldown = false;
     public float myvelocitySign;
@@ -58,9 +58,28 @@ public class Slime : Enemy
         GetHorizontalSpeed();
     }
 
-
+    //need to explain this
     public bool SearchForPlayer()
-    {
+    {   
+        bool FoundPlayer = false;
+        float castDst = 2f;
+
+        Vector2 endPos = transform.position + Vector3.right * castDst * Mathf.Sign(myvelocitySign); 
+
+        RaycastHit2D hit = Physics2D.Linecast(transform.position, endPos, 1 << LayerMask.NameToLayer("RaycastHits"));
+
+        if(hit.collider != null)
+        {
+            if(hit.collider.gameObject.CompareTag("Player"))
+            {
+                Debug.Log("player hitted");
+                FoundPlayer = true;
+            }
+            else
+            {
+                FoundPlayer = false;
+            }
+        }
         return FoundPlayer;
     }
 
@@ -79,7 +98,7 @@ public class Slime : Enemy
     }
 
 
-void OnTriggerEnter2D(Collider2D other) 
+/*void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.tag == "Player")
         {
@@ -101,7 +120,7 @@ void OnTriggerEnter2D(Collider2D other)
         {
             FoundPlayer = false;
         }
-    }
+    }*/
 
     void GetHorizontalSpeed()
     {
