@@ -53,7 +53,7 @@ public class ConnectionBehavior : MonoBehaviour
         lineRenderer.SetPosition(0, startPos);
         curve.AddKey(0.0f, startWidth);
 
-        t0 += period;
+        t0 += (period*180)*Time.deltaTime;
 
         if (t0*Mathf.Deg2Rad > 2*Mathf.PI)
         {

@@ -37,6 +37,7 @@ public class WanderSlime : IState
 
         slime.rb.velocity = new Vector2(slime.wanderSpeed, 0f);
         if(Vector2.Distance(slime.transform.position, slime.pointOfMySpawn) >= 1f){
+            //Debug.Log(Vector2.Distance(slime.transform.position, slime.pointOfMySpawn));
             // if the slime is facing the wrong direction, flip it
             if(slime.myvelocitySign == Mathf.Sign(slime.transform.position.x - slime.pointOfMySpawn.x))
             {
@@ -87,6 +88,5 @@ public class WanderSlime : IState
     {
         if(!canFlip){return;}
         slime.wanderSpeed = -slime.wanderSpeed;
-
     }
 }
