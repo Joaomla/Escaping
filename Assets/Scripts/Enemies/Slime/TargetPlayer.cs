@@ -25,7 +25,7 @@ public class TargetPlayer : IState
     {
         targetPos = new Vector3(player.transform.position.x, slime.transform.position.y, slime.transform.position.z);
         float myVelocity = targetPos.x - slime.transform.position.x;
-        
+        Debug.Log("target player");
 
 
     }

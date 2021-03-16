@@ -58,15 +58,16 @@ public class Slime : Enemy
         GetHorizontalSpeed();
     }
 
-    //need to explain this
+    //Dectect player with my vision
     public bool SearchForPlayer()
     {   
         bool FoundPlayer = false;
-        float castDst = 2f;
+        float castDst = 4f;
+        Vector2 myorigin = new Vector2(transform.position.x, transform.position.y-0.15f);
 
-        Vector2 endPos = transform.position + Vector3.right * castDst * Mathf.Sign(myvelocitySign); 
+        Vector2 endPos = myorigin + Vector2.right * castDst * Mathf.Sign(myvelocitySign); 
 
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, endPos, 1 << LayerMask.NameToLayer("RaycastHits"));
+        RaycastHit2D hit = Physics2D.Linecast(myorigin, endPos, 1 << LayerMask.NameToLayer("RaycastHits") | (1 << LayerMask.NameToLayer("SolidGround"))); 
 
         if(hit.collider != null)
         {
@@ -83,6 +84,7 @@ public class Slime : Enemy
         return FoundPlayer;
     }
 
+
     public override void GetsHurt( int damage, Vector2 origin )
     {
         // subtracts from the current health
@@ -97,7 +99,7 @@ public class Slime : Enemy
         rb.velocity = new Vector2(receivedKnockbackValue * Mathf.Sign(knockbackDirection.x), receivedKnockbackValue * Mathf.Sign(knockbackDirection.y));
     }
 
-
+#region Triggers que agora não servem para absolutamente nada
 /*void OnTriggerEnter2D(Collider2D other) 
     {
         if(other.tag == "Player")
@@ -121,7 +123,8 @@ public class Slime : Enemy
             FoundPlayer = false;
         }
     }*/
-
+#endregion
+    
     void GetHorizontalSpeed()
     {
         bool slimeHasHorizontalSpeed = Mathf.Abs(myvelocitySign) > Mathf.Epsilon;

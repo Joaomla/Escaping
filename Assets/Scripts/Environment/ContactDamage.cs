@@ -37,6 +37,7 @@ public class ContactDamage : MonoBehaviour
         //  this thing contacts the player -> player gets hurt
         if (collision.tag == "Player")
         {
+            Debug.Log(collision.name);
             collision.GetComponent<Player>().GetsHurt(damage, this);
         }
     }

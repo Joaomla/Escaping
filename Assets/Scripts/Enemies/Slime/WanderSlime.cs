@@ -18,12 +18,13 @@ public class WanderSlime : IState
     {
         this.slime = slime;
         this.path = path;
+    
 
     }
 
     public void Enter()
     {
-
+        
     }
 
     public void Execute()                               //We take a list of waypoints and move the slime through them, that's how it wanders
@@ -42,12 +43,12 @@ public class WanderSlime : IState
         
         if(!slime.periscope.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
         {
-            Debug.Log("here");
+            
             Flip();
         }
         else if(slime.periscope.IsTouchingLayers(LayerMask.GetMask("Danger")))
         {
-            Debug.Log("touched danger");
+            
             Flip();
         }
         
