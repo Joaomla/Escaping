@@ -64,7 +64,7 @@ public class Companion : MonoBehaviour
         // the companion is focused on a POI
         if( pointChecker.activePOI != null)
         {
-            TeleportPOI teleportPOI = pointChecker.activePOI.myObject.GetComponent<TeleportPOI>();
+            TeleportPOI teleportPOI = pointChecker.activePOI.GetComponent<TeleportPOI>();
             // If the POI is a teleportation point
             if (teleportPOI)
             {

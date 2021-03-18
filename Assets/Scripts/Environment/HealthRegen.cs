@@ -10,7 +10,7 @@ public class HealthRegenObject : MonoBehaviour
     private void OnTriggerEnter2D( Collider2D collision )
     {
         // this thing contacts the player -> player gets healed
-        if (collision.tag == "Player")
+        if (collision.GetComponent<Player>() != null)
         {
             // full regen
             if (fullRegen)

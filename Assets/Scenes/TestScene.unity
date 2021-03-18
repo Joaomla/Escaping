@@ -4115,8 +4115,9 @@ GameObject:
   - component: {fileID: 772282830}
   - component: {fileID: 772282829}
   - component: {fileID: 772282828}
+  - component: {fileID: 772282831}
   m_Layer: 0
-  m_Name: Point of Interest Test (1)
+  m_Name: POI1
   m_TagString: PointOfInterest
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -4202,6 +4203,19 @@ Transform:
   m_Father: {fileID: 130319446}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &772282831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 772282827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0f4d5de705c334b9972fadbd0e0716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myDistance: 0
 --- !u!1 &773378122
 GameObject:
   m_ObjectHideFlags: 0
@@ -4338,6 +4352,7 @@ MonoBehaviour:
   trig: 0
   targetPos: {x: 0, y: 0, z: 0}
   player: {fileID: 1512379059}
+  activePOI: {fileID: 0}
 --- !u!1 &809108086
 GameObject:
   m_ObjectHideFlags: 0
@@ -10739,8 +10754,9 @@ GameObject:
   - component: {fileID: 1286218117}
   - component: {fileID: 1286218116}
   - component: {fileID: 1286218119}
+  - component: {fileID: 1286218120}
   m_Layer: 0
-  m_Name: Point of Interest Test
+  m_Name: POITP
   m_TagString: PointOfInterest
   m_Icon: {fileID: 8418204508859773708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -10841,6 +10857,19 @@ MonoBehaviour:
   teleportToPosition: {x: 5, y: 0}
   grid: {fileID: 105207098}
   destination: {x: 2.75, y: 0.25, z: 0}
+--- !u!114 &1286218120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1286218115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a0f4d5de705c334b9972fadbd0e0716, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myDistance: 0
 --- !u!1 &1337403131
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class POI
+public class POI : MonoBehaviour
 {
-    public GameObject myObject;
-    public float myDistance;
-    public POI(GameObject POI, float distance)
-    {
-        myObject = POI;
-        myDistance = distance;
-    }
+    [HideInInspector] public float myDistance;
 
 }

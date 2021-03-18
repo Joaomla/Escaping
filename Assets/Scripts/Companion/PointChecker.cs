@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,51 +30,40 @@ public class PointChecker : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other) 
     {
-        if(POIs.Count > 1)
-        {
-            for(int i = 0; i < POIs.Count; i++)
-            {
-                POIs[i].myDistance = CalculateDistance(other.gameObject);
-            }
-        }
-        if(other.gameObject.tag == "PointOfInterest")
+        // the other object is a point of interest
+        if(other.GetComponent<POI>() != null)
         {
             if(POIs.Count > 1)
             {
-                //Debug.Log("meu target é: " + TargetGiver(POIs).myObject.name);
-                trig = true;
-                activePOI = TargetGiver(POIs);
-                targetPos = activePOI.myObject.transform.position;
+                // calculates the distance 
+                for(int i = 0; i < POIs.Count; i++)
+                {
+                    POIs[i].myDistance = CalculateDistance(POIs[i]);
+                    //Debug.Log(POIs[i].name + " " + POIs[i].myDistance);
+                }
             }
-            else
-            {
-                trig = true;
-                targetPos = other.transform.position;
-                activePOI = POIs[0];
-            }
+
+            // updates the target POI
+            trig = true;
+            activePOI = TargetGiver(POIs);
+            targetPos = activePOI.transform.position;
         }
         
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        
-        if(other.gameObject.tag == "PointOfInterest")
+        // the other gameobject has a Point of interest -> adds to the list
+        if(other.GetComponent<POI>() != null)
         {
-            POIToAdd = new POI(other.gameObject, CalculateDistance(other.gameObject));
+            POIToAdd = other.GetComponent<POI>();
             POIs.Add(POIToAdd);
-            if(POIs.Count > 1)
-            {
-                activePOI = TargetGiver(POIs);
-                targetPos = activePOI.myObject.transform.position;
-            }
-            else
-            {
-                trig = true;
-                targetPos = other.transform.position;
-                activePOI = POIs[0];
-            }
-            
+
+
+            // updates the target POI
+            trig = true;
+            activePOI = TargetGiver(POIs);
+            targetPos = activePOI.transform.position;     
         }
     }
 
@@ -83,44 +72,47 @@ public class PointChecker : MonoBehaviour
         //Check if list is bigger than 1
         //If it is check if other.gameObject == POI.gameObject
         //If it is take THAT POI out of the list
-        for(int i = 0; i < POIs.Count; i++)
-        {
-            if(GameObject.ReferenceEquals(POIs[i].myObject, other.gameObject))
-            {
-                // if this is the currently active POI remove it
-                if (POIs[i] == activePOI) activePOI = null;
+        POI otherPOI = other.GetComponent<POI>();
 
-                POIs.Remove(POIs[i]);
-                //Debug.Log(POIs.Count);
-            }
-        }
-        
-        if(other.gameObject.tag == "PointOfInterest")
+        if (otherPOI != null)
         {
-            trig = false;
+            for(int i = 0; i < POIs.Count; i++)
+            {
+                if(POIs[i] == otherPOI)
+                {
+                    // if this is the currently active POI remove it
+                    if (POIs[i] == activePOI) activePOI = null;
+
+                    // remove from the list
+                    POIs.Remove(POIs[i]);
+                    trig = false;
+                }
+            }
         }
     }
 
-    float CalculateDistance(GameObject POI)
+    float CalculateDistance(POI poi)
     {
-        float distance = Vector3.Distance(player.transform.position, POI.transform.position);
+        float distance = Vector3.Distance(player.transform.position, poi.transform.position);
         return distance;
     }
 
     POI TargetGiver(List<POI> POIs)
     {
+        // the first element of the list is the default POI
         POI POIToReturn = POIs[0];
-        for(int i = 0; i<POIs.Count - 1; i++)
+        float distance = POIToReturn.myDistance;
+
+        // Checks which POI has the less distance
+        for(int i = 1; i < POIs.Count; i++)
         {
-            if(POIs[i].myDistance < POIs[i+1].myDistance)
+            if(distance > POIs[i].myDistance)
             {
                 POIToReturn = POIs[i];
-            }
-            else
-            {
-                POIToReturn = POIs[i+1];
+                distance = POIToReturn.myDistance;
             }
         }
+
         return POIToReturn;
     }
 }
