@@ -85,9 +85,14 @@ public class PointChecker : MonoBehaviour
 
                     // remove from the list
                     POIs.Remove(POIs[i]);
-                    trig = false;
                 }
             }
+        }
+
+        // list is empty
+        if (POIs.Count == 0)
+        {
+            trig = false;
         }
     }
 
