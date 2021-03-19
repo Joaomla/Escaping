@@ -39,6 +39,6 @@ public class Levitation3D : MonoBehaviour
             }
         }
 
-        transform.Rotate(fixedXRotation * rotationX, rotationY, rotationZ);
+        transform.Rotate(fixedXRotation * rotationX * Time.deltaTime, rotationY, rotationZ);
     }
 }
