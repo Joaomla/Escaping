@@ -51,12 +51,23 @@ public class WanderSlime : IState
             canFlip = true;
             //outOfBounds = false;
         }
-        
-        if(!slime.periscope.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
+
+        // the slime is hitting a wall
+        RaycastHit2D hit = Physics2D.Linecast(slime.myorigin, slime.endPos, 1 << LayerMask.NameToLayer("SolidGround"));
+        if (hit.collider != null)
+        {
+            if (hit.distance < 0.4f)
+            {
+                Flip();
+            }
+        }
+        // slime is hitting a hole
+        if (!slime.periscope.IsTouchingLayers(LayerMask.GetMask("SolidGround")))
         {
             
             Flip();
         }
+        // slime is hitting spikes
         else if(slime.periscope.IsTouchingLayers(LayerMask.GetMask("Danger")))
         {
             

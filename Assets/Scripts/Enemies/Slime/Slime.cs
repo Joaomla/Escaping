@@ -36,6 +36,10 @@ public class Slime : Enemy
     [SerializeField] public float horizontalSpeed = 2f;
     [SerializeField] public float coolDownTime = 2f;
 
+    // Raycast variables
+    [HideInInspector] public Vector2 myorigin;
+    [HideInInspector] public Vector2 endPos;
+
     //TEST
     public void ReceivePath(List<Transform> path)
     {
@@ -63,9 +67,9 @@ public class Slime : Enemy
     {   
         bool FoundPlayer = false;
         float castDst = 4f;
-        Vector2 myorigin = new Vector2(transform.position.x, transform.position.y-0.15f);
+        myorigin = new Vector2(transform.position.x, transform.position.y-0.15f);
 
-        Vector2 endPos = myorigin + Vector2.right * castDst * Mathf.Sign(myvelocitySign); 
+        endPos = myorigin + Vector2.right * castDst * Mathf.Sign(myvelocitySign); 
 
         RaycastHit2D hit = Physics2D.Linecast(myorigin, endPos, 1 << LayerMask.NameToLayer("RaycastHits") | (1 << LayerMask.NameToLayer("SolidGround"))); 
 
