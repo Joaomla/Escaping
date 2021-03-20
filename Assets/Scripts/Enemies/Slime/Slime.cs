@@ -96,6 +96,9 @@ public class Slime : Enemy
         // knockback direction
         Vector2 knockbackDirection = (new Vector2(transform.position.x, transform.position.y) - origin).normalized;
 
+        // slime will face the player if it's attacked
+        myvelocitySign = -knockbackDirection.x;
+
         rb.velocity = new Vector2(receivedKnockbackValue * Mathf.Sign(knockbackDirection.x), receivedKnockbackValue * Mathf.Sign(knockbackDirection.y));
 
         StateMachine.ChangeState(new SlimeKnocked(this));
