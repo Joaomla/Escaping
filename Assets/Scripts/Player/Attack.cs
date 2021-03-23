@@ -23,7 +23,11 @@ public class Attack : MonoBehaviour
     public void Check()
     {
         // player can only attack if they are stopped
-        if (player.rb.velocity != Vector2.zero) return;
+        if (player.isMoving())
+        {
+            StopAttacking();
+            return;
+        }
 
         // Change input
         if(Input.GetKeyDown(KeyCode.Space))
@@ -56,14 +60,19 @@ public class Attack : MonoBehaviour
         }
 
         // reset attack variables
-        player.an.SetBool("isAttacking", false);
-        isAttacking = false;
+        StopAttacking();
     }
 
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(cooldown);
         canAttack = true;
+    }
+
+    private void StopAttacking()
+    {
+        player.an.SetBool("isAttacking", false);
+        isAttacking = false;
     }
 
 }

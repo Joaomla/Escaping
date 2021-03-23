@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
 
     // player movement
     PlayerMovement playerMovement;
-    [HideInInspector] public float xMovement;        // horizontal movement of the player
+    //[HideInInspector] public float xMovement;        // horizontal movement of the player
     //[HideInInspector] public int playerFacing = 1;   // side the player is facing (right)
     //[HideInInspector] public bool isFloored = true;  // is the player on the ground
 
@@ -85,8 +85,17 @@ public class Player : MonoBehaviour
     {
         // if the player is teleporting, stop. the player can't interact with anything
         // if the player is attacking, thy can't also do anything else
-        if (isTeleporting || attack.isAttacking) return;
-
+        if (isTeleporting) return;
+        else if(attack.isAttacking)
+        {
+            // Checks if the player can move
+            playerMovement.Check();
+            // Checks if the player is attacking
+            attack.Check();
+            // Updates the animation
+            Animate();  
+            return;
+        }
         // Checks Abilities of the player - Companion
         abilities.Check();
         // Checks if player is invincible
@@ -155,5 +164,12 @@ public class Player : MonoBehaviour
     {
         currentHealth = maxHealth;
         healthbar.SetPower(currentHealth);
+    }
+
+    public bool isMoving()
+    {
+        if(rb.velocity != Vector2.zero && playerMovement.xMovement != 0) return true;
+
+        return false;
     }
 }

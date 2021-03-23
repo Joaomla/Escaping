@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Horizontal Movement")]
     // speed of the player in the x axis
     [SerializeField] float xSpeed = 2.75f;
-    float xMovement;
+    [HideInInspector] public float xMovement;
     bool isFloored;
     int playerFacing = 1;
 
@@ -69,7 +69,7 @@ public class PlayerMovement : MonoBehaviour
         // if player is being knockbacked, it can't move
         if (knockbacked)
         {
-            player.xMovement = 0;
+            xMovement = 0;
         }
 
         if (currentKnockbackTime > 0 )
