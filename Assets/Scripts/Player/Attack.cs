@@ -23,7 +23,7 @@ public class Attack : MonoBehaviour
     public void Check()
     {
         // player can only attack if they are stopped
-        if (player.isMoving())
+        if (!player.OnTheFloor())
         {
             StopAttacking();
             return;
@@ -40,6 +40,7 @@ public class Attack : MonoBehaviour
 
             canAttack = false;
             player.an.SetBool("isAttacking", true);
+            player.SetCanMove(false);
             isAttacking = true;
             StartCoroutine(AttackCooldown());
         }
@@ -61,6 +62,11 @@ public class Attack : MonoBehaviour
 
         // reset attack variables
         StopAttacking();
+    }
+
+    public void AttackFinishedEvent()
+    {
+        player.SetCanMove(true);
     }
 
     IEnumerator AttackCooldown()

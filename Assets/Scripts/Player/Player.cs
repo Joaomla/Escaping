@@ -166,10 +166,15 @@ public class Player : MonoBehaviour
         healthbar.SetPower(currentHealth);
     }
 
-    public bool isMoving()
+    public bool OnTheFloor()
     {
-        if(rb.velocity != Vector2.zero && playerMovement.xMovement != 0) return true;
+        if(playerMovement.isFloored) return true;
 
         return false;
+    }
+
+    public void SetCanMove(bool _canMove)
+    {
+        playerMovement.canMove = _canMove;
     }
 }

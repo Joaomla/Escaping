@@ -19,7 +19,8 @@ public class PlayerMovement : MonoBehaviour
     // speed of the player in the x axis
     [SerializeField] float xSpeed = 2.75f;
     [HideInInspector] public float xMovement;
-    bool isFloored;
+    [HideInInspector] public bool canMove = true;   // can the player move? (WASD)
+    [HideInInspector] public bool isFloored;
     int playerFacing = 1;
 
     // Jump
@@ -152,6 +153,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // Player can't just jump if they hold the jump key constantly. they have to release and press it again
         bool canJump = false;
+
+        if (!canMove) return;
+
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) canJump = true;
 
         // jumpkey is the variable for the long jump
@@ -167,6 +171,13 @@ public class PlayerMovement : MonoBehaviour
     // Checks if player moves
     private void Move()
     {
+        // the player can't move
+        if (!canMove)
+        {
+            xMovement = 0;
+            return;
+        }
+
         xMovement = Input.GetAxisRaw("Horizontal");
 
         // update where the player is facing
