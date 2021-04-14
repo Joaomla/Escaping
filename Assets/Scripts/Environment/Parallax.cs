@@ -10,6 +10,7 @@ public class Parallax : MonoBehaviour
 
     Vector2 startPosition;
     float startZ;
+    float startY;
 
     Vector2 travel => (Vector2)camera.transform.position - startPosition;
 
@@ -19,16 +20,18 @@ public class Parallax : MonoBehaviour
 
     float parallaxFactor => Mathf.Abs(distanceFromAgent) / clippingPlane;
 
+
     // Start is called before the first frame update
     void Start()
     {
         startPosition = transform.position;
         startZ = transform.position.z;
+        startY = transform.position.y;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector2 newPos = startPosition + travel * parallaxFactor;
-        transform.position = new Vector3(newPos.x, newPos.y, startZ);
+        transform.position = new Vector3(newPos.x, startY, startZ);
     }
 }
