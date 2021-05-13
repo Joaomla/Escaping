@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    
     Player player;
     Companion companion;
 
@@ -14,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     // visuals
     Animator an;
 
+    //Game Manager
+    public bool canMove;
+        
     // Movement
     [Header("Horizontal Movement")]
     // speed of the player in the x axis
@@ -132,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
             currentJumpingTime -= Time.fixedDeltaTime;
         }
+        Debug.Log(canMove);
     }
 
     // Checks if player is on the ground
