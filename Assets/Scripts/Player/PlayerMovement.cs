@@ -16,8 +16,7 @@ public class PlayerMovement : MonoBehaviour
     Animator an;
 
     //Game Manager
-    public bool canMove;
-        
+            
     // Movement
     [Header("Horizontal Movement")]
     // speed of the player in the x axis
