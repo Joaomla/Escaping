@@ -17,7 +17,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Escape) && playerMovement.canMove == true){
+            StopCharacterMovement();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && playerMovement.canMove == false){
+            StartCharacterMovement();
+        }
     }
 
     public void PauseGame()
@@ -33,6 +38,7 @@ public class GameManager : MonoBehaviour
     public void StopCharacterMovement()
     {
         playerMovement.canMove = false;
+        
     }
 
     public void StartCharacterMovement()
