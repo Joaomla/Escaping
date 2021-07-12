@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
     
     Player player;
     Companion companion;
-
+    Dash dashScript;
     // player body
     Rigidbody2D rb;
     EdgeCollider2D feet;
@@ -20,7 +20,7 @@ public class PlayerMovement : MonoBehaviour
     // Movement
     [Header("Horizontal Movement")]
     // speed of the player in the x axis
-    [SerializeField] float xSpeed = 2.75f;
+    [SerializeField] public float xSpeed = 2.75f;
     [HideInInspector] public float xMovement;
     [HideInInspector] public bool canMove = true;   // can the player move? (WASD)
     [HideInInspector] public bool isFloored;
@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         feet = GetComponent<EdgeCollider2D>();
         an = GetComponent<Animator>();
+        dashScript = GetComponent<Dash>();
     }
 
     private void Start()
@@ -111,6 +112,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 // player is on the floor
                 rb.velocity = new Vector2(xMovement*xSpeed, 0);
+
             }
             else
             {
@@ -130,12 +132,12 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
                 return;
             }
-
-            // if player is in mid-air and there's no horizontal input, the player won't move in the x axis
+            if (dashScript.isDashing){return;}
+            // if player is in mid-air or on the ground and there's no horizontal input, the player won't move in the x axis
             rb.velocity = new Vector2(0, rb.velocity.y);
             currentJumpingTime -= Time.fixedDeltaTime;
         }
-        Debug.Log(canMove);
+        //Debug.Log(canMove);
     }
 
     // Checks if player is on the ground
