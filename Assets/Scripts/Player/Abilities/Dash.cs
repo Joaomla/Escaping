@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
-    float dashSpeed = 15f;
+    float dashSpeed = 2500f;
     float buttonCooler = 0.5f;
     int buttonCount = 0;
     bool dashLeft;
@@ -12,6 +12,10 @@ public class Dash : MonoBehaviour
     public bool isDashing;
     PlayerMovement playerMovementScript;
     Rigidbody2D rb;
+    int inputLeft = 0;
+    int inputRight = 0;
+
+
     private void Start() 
     {
         playerMovementScript = GetComponent<PlayerMovement>();
@@ -24,19 +28,43 @@ public class Dash : MonoBehaviour
         //Debug.Log (movementScript.xSpeed);
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if ( buttonCooler > 0 && buttonCount == 1/*Number of Taps you want Minus One*/)
+            Debug.Log("Input is A");
+            if ( buttonCooler > 0 && buttonCount >= 1 && inputLeft == 1)
             {
                 playerMovementScript.xMovement = 0;
-                dashDuration = 0.35f;
+                dashDuration = 40f * Time.deltaTime;
                 dashLeft = true;
                 DashAbility();                        /*perform dash*/
             }
             else
             {
+                Debug.Log(buttonCount);
+                inputLeft = 1;
+                inputRight = 0;
                 buttonCooler = 0.5f ; 
                 buttonCount += 1 ;
             }
-        } 
+        }
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+
+            if ( buttonCooler > 0 && buttonCount >= 1 && inputRight == 1)
+            {
+                playerMovementScript.xMovement = 0;
+                dashDuration = 40f * Time.deltaTime;
+                dashLeft = false;
+                DashAbility();                        /*perform dash*/
+            }
+            else
+            {
+                inputLeft = 0;
+                inputRight = 1;
+                buttonCooler = 0.5f ; 
+                buttonCount += 1 ;
+            }
+        }
+
         if (dashDuration >= 0)
         {
             DashAbility();
@@ -60,17 +88,16 @@ public class Dash : MonoBehaviour
 
     private void DashAbility()
     {
-        if (dashLeft = true)
+        if (dashLeft)
         {
-            rb.velocity = new Vector2 (-dashSpeed, 0f);
-            isDashing = true;
-            dashDuration -= Time.deltaTime;
+            rb.velocity = new Vector2 (-dashSpeed * Time.deltaTime, 0f);
         }
+        else
+        {
+            rb.velocity = new Vector2 (dashSpeed * Time.deltaTime, 0f);
+        }
+        isDashing = true;
+        dashDuration -= Time.deltaTime;
 
-    }
-
-    private bool CanMove(Vector2 dir, float dst)
-    {
-        return Physics2D.Raycast(transform.position, dir, dst).collider == null;
     }
 }
