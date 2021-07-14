@@ -20,6 +20,7 @@ public class Dash : MonoBehaviour
     {
         playerMovementScript = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
+        dashDuration = 0;
     }
     // Update is called once per frame
     void Update()
@@ -28,7 +29,6 @@ public class Dash : MonoBehaviour
         //Debug.Log (movementScript.xSpeed);
         if (Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Input is A");
             if ( buttonCooler > 0 && buttonCount >= 1 && inputLeft == 1)
             {
                 playerMovementScript.xMovement = 0;
@@ -38,7 +38,6 @@ public class Dash : MonoBehaviour
             }
             else
             {
-                Debug.Log(buttonCount);
                 inputLeft = 1;
                 inputRight = 0;
                 buttonCooler = 0.5f ; 
@@ -48,11 +47,11 @@ public class Dash : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.D))
         {
-
+            Debug.Log("Input is D");
             if ( buttonCooler > 0 && buttonCount >= 1 && inputRight == 1)
             {
                 playerMovementScript.xMovement = 0;
-                dashDuration = 40 * Time.deltaTime;
+                dashDuration = 40f * Time.deltaTime;
                 dashLeft = false;
                 DashAbility();                        /*perform dash*/
             }
@@ -60,7 +59,7 @@ public class Dash : MonoBehaviour
             {
                 inputLeft = 0;
                 inputRight = 1;
-                buttonCooler = 0.05f ; 
+                buttonCooler = 0.5f ; 
                 buttonCount += 1 ;
             }
         }
@@ -88,12 +87,14 @@ public class Dash : MonoBehaviour
 
     private void DashAbility()
     {
+        Debug.Log("Duração do dash: " + dashDuration + "velocidade: " + dashSpeed);
         if (dashLeft)
         {
             rb.velocity = new Vector2 (-dashSpeed * Time.deltaTime, 0f);
         }
         else
         {
+            Debug.Log("here");
             rb.velocity = new Vector2 (dashSpeed * Time.deltaTime, 0f);
         }
         isDashing = true;
