@@ -52,7 +52,7 @@ public class Dash : MonoBehaviour
             if ( buttonCooler > 0 && buttonCount >= 1 && inputRight == 1)
             {
                 playerMovementScript.xMovement = 0;
-                dashDuration = 40f * Time.deltaTime;
+                dashDuration = 40 * Time.deltaTime;
                 dashLeft = false;
                 DashAbility();                        /*perform dash*/
             }
@@ -60,7 +60,7 @@ public class Dash : MonoBehaviour
             {
                 inputLeft = 0;
                 inputRight = 1;
-                buttonCooler = 0.5f ; 
+                buttonCooler = 0.05f ; 
                 buttonCount += 1 ;
             }
         }

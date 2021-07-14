@@ -1,0 +1,374 @@
+fileFormatVersion: 2
+guid: 7124414bfb1d75b43a249bec93ff5fb4
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 1791087418809198350
+    second: bird_persuing-Sheet_0
+  - first:
+      213: -4693739316537368125
+    second: bird_persuing-Sheet_1
+  - first:
+      213: 2768835717223998578
+    second: bird_persuing-Sheet_2
+  - first:
+      213: 8041170936780543216
+    second: bird_persuing-Sheet_3
+  - first:
+      213: 4723235084359233851
+    second: bird_persuing-Sheet_4
+  - first:
+      213: -549080338201836162
+    second: bird_persuing-Sheet_5
+  - first:
+      213: 4636212144809858507
+    second: bird_persuing-Sheet_6
+  - first:
+      213: 2977904869708765839
+    second: bird_persuing-Sheet_7
+  - first:
+      213: -7195378143896900790
+    second: bird_persuing-Sheet_8
+  - first:
+      213: 1983544884295049465
+    second: bird_persuing-Sheet_9
+  - first:
+      213: -8056267395457778299
+    second: bird_persuing-Sheet_10
+  - first:
+      213: -9110991114989778490
+    second: bird_persuing-Sheet_11
+  - first:
+      213: 5019121805954520115
+    second: bird_persuing-Sheet_12
+  - first:
+      213: -7560830871635336368
+    second: bird_persuing-Sheet_13
+  - first:
+      213: -3817763859119702832
+    second: bird_persuing-Sheet_14
+  - first:
+      213: -2014616692439620023
+    second: bird_persuing-Sheet_15
+  - first:
+      213: 8405426993181118071
+    second: bird_persuing-Sheet_16
+  - first:
+      213: -4569048222487855062
+    second: bird_persuing-Sheet_17
+  - first:
+      213: 6684468719872711586
+    second: bird_persuing-Sheet_18
+  - first:
+      213: -631484501450078029
+    second: bird_persuing-Sheet_19
+  - first:
+      213: -5454333147076867021
+    second: bird_persuing-Sheet_20
+  - first:
+      213: -6656524880031732201
+    second: bird_persuing-Sheet_21
+  - first:
+      213: 7728972899950854633
+    second: bird_persuing-Sheet_22
+  - first:
+      213: 1144809933797472070
+    second: bird_persuing-Sheet_23
+  - first:
+      213: -8654804622122071887
+    second: bird_persuing-Sheet_24
+  - first:
+      213: -2071247204954100129
+    second: bird_persuing-Sheet_25
+  - first:
+      213: 554230794837133332
+    second: bird_persuing-Sheet_26
+  - first:
+      213: 3578560619862676118
+    second: bird_persuing-Sheet_27
+  - first:
+      213: -5823866266301985395
+    second: bird_persuing-Sheet_28
+  - first:
+      213: -3480702433950409088
+    second: bird_persuing-Sheet_29
+  - first:
+      213: -4000171317243618568
+    second: bird_persuing-Sheet_30
+  - first:
+      213: -4937793019980168227
+    second: bird_persuing-Sheet_31
+  - first:
+      213: -6297536331180171456
+    second: bird_persuing-Sheet_32
+  - first:
+      213: 4595010824574109203
+    second: bird_persuing-Sheet_33
+  - first:
+      213: -7525224390048320938
+    second: bird_persuing-Sheet_34
+  - first:
+      213: -2891702423566756901
+    second: bird_persuing-Sheet_35
+  - first:
+      213: 7738542645246052549
+    second: bird_persuing-Sheet_36
+  - first:
+      213: 5703861117434843144
+    second: bird_persuing-Sheet_37
+  - first:
+      213: -3057086400739143103
+    second: bird_persuing-Sheet_38
+  - first:
+      213: 1009238562622345056
+    second: bird_persuing-Sheet_39
+  - first:
+      213: 1099963160787803359
+    second: bird_persuing-Sheet_40
+  - first:
+      213: -2052722796440554469
+    second: bird_persuing-Sheet_41
+  - first:
+      213: 6939564053810239196
+    second: bird_persuing-Sheet_42
+  - first:
+      213: -1010539528021221100
+    second: bird_persuing-Sheet_43
+  - first:
+      213: -3369959069363348730
+    second: bird_persuing-Sheet_44
+  - first:
+      213: -8560088725387222357
+    second: bird_persuing-Sheet_45
+  - first:
+      213: 7305461020127828876
+    second: bird_persuing-Sheet_46
+  - first:
+      213: -8251053123214451763
+    second: bird_persuing-Sheet_47
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 64
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e072bcf84883bd810800000000000000
+      internalID: 1791087418809198350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 328
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3c16189c5fc7cdeb0800000000000000
+      internalID: -4693739316537368125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 656
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 274ec863a61ec6620800000000000000
+      internalID: 2768835717223998578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0f4dff0fc5af79f60800000000000000
+      internalID: 8041170936780543216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 1312
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b31f4e1d84d4c8140800000000000000
+      internalID: 4723235084359233851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bird_persuing-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1640
+        y: 0
+        width: 328
+        height: 247
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e75045077564168f0800000000000000
+      internalID: -549080338201836162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
