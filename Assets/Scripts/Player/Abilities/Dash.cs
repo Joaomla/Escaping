@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Dash : MonoBehaviour
 {
-    float dashSpeed = 2500f;
+    float dashSpeed = 30f;
     float buttonCooler = 0.5f;
     int buttonCount = 0;
     bool dashLeft;
@@ -20,7 +20,7 @@ public class Dash : MonoBehaviour
     {
         playerMovementScript = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
-        dashDuration = 0;
+        dashDuration = -1;
     }
     // Update is called once per frame
     void Update()
@@ -32,7 +32,7 @@ public class Dash : MonoBehaviour
             if ( buttonCooler > 0 && buttonCount >= 1 && inputLeft == 1)
             {
                 playerMovementScript.xMovement = 0;
-                dashDuration = 40f * Time.deltaTime;
+                dashDuration = 0.25f;
                 dashLeft = true;
                 DashAbility();                        /*perform dash*/
             }
@@ -51,7 +51,7 @@ public class Dash : MonoBehaviour
             if ( buttonCooler > 0 && buttonCount >= 1 && inputRight == 1)
             {
                 playerMovementScript.xMovement = 0;
-                dashDuration = 40f * Time.deltaTime;
+                dashDuration = 0.25f;
                 dashLeft = false;
                 DashAbility();                        /*perform dash*/
             }
@@ -87,18 +87,18 @@ public class Dash : MonoBehaviour
 
     private void DashAbility()
     {
-        Debug.Log("Duração do dash: " + dashDuration + "velocidade: " + dashSpeed);
+        Debug.Log("Duração do dash: " + dashDuration + " velocidade: " + dashSpeed * Time.deltaTime);
         if (dashLeft)
         {
-            rb.velocity = new Vector2 (-dashSpeed * Time.deltaTime, 0f);
+            rb.velocity = new Vector2 (-dashSpeed, 0f);
         }
         else
         {
-            Debug.Log("here");
-            rb.velocity = new Vector2 (dashSpeed * Time.deltaTime, 0f);
+            rb.velocity = new Vector2 (dashSpeed, 0f);
         }
         isDashing = true;
-        dashDuration -= Time.deltaTime;
+        dashDuration -= 1 * Time.deltaTime;
 
     }
+    
 }
