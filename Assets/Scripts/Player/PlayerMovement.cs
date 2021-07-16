@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Jump")]
     [SerializeField] float jumpHeight = 4.5f; // jump height
     [SerializeField] float jumpingTime = 0.2f;  // time the player can jump
-    float currentJumpingTime;
+    public float currentJumpingTime;
     bool doJump;
     bool jumpKeyPressed = false;   // is the jump key pressed
 
